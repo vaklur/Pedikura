@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".add_customer.add_customer_fragment.AddCustomerFragment">
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/client_card_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/client_card"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textSize="30sp"/>
+
+            <TextView
+                android:id="@+id/last_name_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/last_name"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+            <EditText
+                android:id="@+id/last_name_EV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/last_name"/>
+            <TextView
+                android:id="@+id/first_name_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="@string/first_name" />
+
+            <EditText
+                android:id="@+id/first_name_EV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/first_name"/>
+            <TextView
+                android:id="@+id/age_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="@string/age" />
+
+            <EditText
+                android:id="@+id/age_EV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:hint="@string/age"
+                />
+            <TextView
+                android:id="@+id/profession_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="@string/profession" />
+
+            <EditText
+                android:id="@+id/profession_EV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/profession"
+                />
+            <TextView
+                android:id="@+id/contact_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="@string/contact" />
+
+            <EditText
+                android:id="@+id/contact_EV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="phone"
+                android:hint="@string/contact"
+                 />
+            <TextView
+                android:id="@+id/address_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="@string/address" />
+
+            <EditText
+                android:id="@+id/address_EV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/address"
+                 />
+            <TextView
+                android:id="@+id/problems_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="@string/problems" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <CheckBox
+                    android:id="@+id/problems_bv_CHB"
+                    android:layout_width="208dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/problems_bv" />
+
+                <CheckBox
+                    android:id="@+id/problems_b_CHB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/problems_b" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <CheckBox
+                    android:id="@+id/problems_k_CHB"
+                    android:layout_width="208dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/problems_k" />
+
+                <CheckBox
+                    android:id="@+id/problems_kp_CHB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/problems_kp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <CheckBox
+                    android:id="@+id/problems_ko_CHB"
+                    android:layout_width="208dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/problems_ko" />
+
+                <CheckBox
+                    android:id="@+id/problems_mn_CHB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/problems_mn" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <CheckBox
+                    android:id="@+id/problems_mp_CHB"
+                    android:layout_width="208dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/problems_mp" />
+
+                <CheckBox
+                    android:id="@+id/problems_n_CHB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/problems_n" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <CheckBox
+                    android:id="@+id/problems_pc_CHB"
+                    android:layout_width="208dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/problems_pc" />
+
+                <CheckBox
+                    android:id="@+id/problems_pn_CHB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/problems_pn" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <CheckBox
+                    android:id="@+id/problems_p_CHB"
+                    android:layout_width="208dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/problems_p" />
+
+                <CheckBox
+                    android:id="@+id/problems_sp_CHB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/problems_sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <CheckBox
+                    android:id="@+id/problems_zn_CHB"
+                    android:layout_width="208dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/problems_zn" />
+
+                <CheckBox
+                    android:id="@+id/problems_h_CHB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/problems_h" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="208dp"
+                android:layout_height="match_parent">
+
+                <CheckBox
+                    android:id="@+id/problems_other_CHB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/problems_others" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/problems_other_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:visibility="gone"
+                android:hint="@string/problems_others"/>
+
+            <TextView
+                android:id="@+id/treatment_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="@string/treatment" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:id="@+id/treatment_a_CHB"
+                android:layout_width="208dp"
+                android:layout_height="match_parent"
+                android:text="@string/treatment_a" />
+
+            <CheckBox
+                android:id="@+id/treatment_co_CHB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/treatment_co" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:id="@+id/treatment_d_CHB"
+                android:layout_width="208dp"
+                android:layout_height="match_parent"
+                android:text="@string/treatment_d" />
+
+            <CheckBox
+                android:id="@+id/treatment_kz_CHB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/treatment_kz" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:id="@+id/treatment_l_CHB"
+                android:layout_width="208dp"
+                android:layout_height="match_parent"
+                android:text="@string/treatment_l" />
+
+            <CheckBox
+                android:id="@+id/treatment_h_CHB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/treatment_h" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:id="@+id/treatment_others_CHB"
+                android:layout_width="208dp"
+                android:layout_height="match_parent"
+                android:text="@string/treatment_others" />
+
+        </LinearLayout>
+
+            <EditText
+                android:id="@+id/treatment_others_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:visibility="gone"
+                android:hint="@string/treatment_others"/>
+
+            <TextView
+                android:id="@+id/recommendation_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="@string/recommendation" />
+
+            <EditText
+                android:id="@+id/recommendation_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/recommendation"
+                android:inputType="textPersonName" />
+
+            <ImageView
+                android:id="@+id/foot_IV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:src="@drawable/foot_bitmap"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/notes_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="@string/notes" />
+
+            <EditText
+                android:id="@+id/notes_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/notes" />
+            <Button
+                android:id="@+id/edit_photos_BTN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit_photos_BTN"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:id="@+id/image_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/photos_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/customer_photos"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/photo_RV"
+                    app:layoutManager="LinearLayoutManager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="105dp"
+                    tools:listitem="@layout/photo_item" />
+
+            </LinearLayout>
+
+
+
+
+
+
+            <Button
+                android:id="@+id/add_customer_BTN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/save_customers_BTN"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

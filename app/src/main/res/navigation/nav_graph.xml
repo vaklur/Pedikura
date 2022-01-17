@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/customersFragment">
+    <fragment
+        android:id="@+id/customersFragment"
+        android:name="com.example.pedikura.customers.CustomersFragment"
+        android:label="customers_fragment"
+        tools:layout="@layout/customers_fragment" >
+        <action
+            android:id="@+id/action_customersFragment_to_customerDetailFragment"
+            app:destination="@id/customerDetailFragment" />
+        <action
+            android:id="@+id/action_customersFragment_to_addCustomerFragment"
+            app:destination="@id/addCustomerFragment" />
+        <action
+            android:id="@+id/action_customersFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.pedikura.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/addCustomerFragment"
+        android:name="com.example.pedikura.add_customer.add_customer_fragment.AddCustomerFragment"
+        android:label="fragment_add_customer"
+        tools:layout="@layout/fragment_add_customer" >
+        <action
+            android:id="@+id/action_addCustomerFragment_to_customersFragment"
+            app:destination="@id/customersFragment" />
+        <action
+            android:id="@+id/action_addCustomerFragment_to_footDrawFragment"
+            app:destination="@id/footDrawFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/customerDetailFragment"
+        android:name="com.example.pedikura.CustomerDetailFragment"
+        android:label="fragment_customer_detail"
+        tools:layout="@layout/fragment_customer_detail" >
+        <action
+            android:id="@+id/action_customerDetailFragment_to_addCustomerFragment2"
+            app:destination="@id/addCustomerFragment" />
+        <action
+            android:id="@+id/action_customerDetailFragment_to_customersFragment"
+            app:destination="@id/customersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/footDrawFragment"
+        android:name="com.example.pedikura.add_customer.foot_drawing.FootDrawFragment"
+        android:label="fragment_foot_draw"
+        tools:layout="@layout/fragment_foot_draw" /><action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment"/>
+</navigation>

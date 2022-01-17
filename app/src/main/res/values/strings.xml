@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">Pedikura</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    // new strings
+
+    <string name="app_title">Pedikura</string>
+    <string name="client_btn">Klienti</string>
+    <string name="app_settings">Nastavení</string>
+
+    <string name="add_client_btn">Přidat klienta</string>
+    <string name="search_client">Vyhledat</string>
+
+
+    <string name="client_card">Karta klienta</string>
+    <string name="edit_customer">Upravit</string>a
+    <string name="delete_customer">Smazat</string>
+
+    <string name="last_name">Příjmení:</string>
+    <string name="first_name">Jméno:</string>
+    <string name="age">Věk:</string>
+    <string name="profession">Profese:</string>
+    <string name="contact">Kontakt:</string>
+    <string name="address">Adresa:</string>
+
+
+    <string name="problems">Kožní problémy na nohou:</string>
+    <string name="problems_bv">Bércový vřed</string>
+    <string name="problems_b">Bradavice</string>
+    <string name="problems_k">Keratóza</string>
+    <string name="problems_kp">Kladívkový prst</string>
+    <string name="problems_ko">Kuří oko</string>
+    <string name="problems_mn">Mykotický nehet</string>
+    <string name="problems_mp">Mykotická pokožka</string>
+    <string name="problems_n">Neurapatie</string>
+    <string name="problems_pc">Po chemoterapii</string>
+    <string name="problems_pn">Potivé nohy</string>
+    <string name="problems_p">Praskliny</string>
+    <string name="problems_sp">Suchá pokožka</string>
+    <string name="problems_zn">Zarostlý nehet</string>
+    <string name="problems_h">Hallux</string>
+    <string name="problems_others">Jiné</string>
+
+    <string name="treatment">Léčby, nemoci klienta:</string>
+    <string name="treatment_a">Alergie</string>
+    <string name="treatment_co">Cévní onemocnění</string>
+    <string name="treatment_d">Diabetik</string>
+    <string name="treatment_kz">Křečové žíly</string>
+    <string name="treatment_l">Lupénka</string>
+    <string name="treatment_h">Hemofilie</string>
+    <string name="treatment_others">Jiné</string>
+
+    <string name="notes">Poznámky:</string>
+    <string name="recommendation">Doporučení:</string>
+
+    <string name="save_customers_BTN">Uložit klienta</string>
+
+    <string name="customer_photos">Fotky klienta:</string>
+    <string name="edit_photos_BTN">Přidat fotku</string>
+
+
+</resources>
