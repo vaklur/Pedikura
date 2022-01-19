@@ -7,6 +7,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.pedikura.databinding.FragmentCustomerDetailBinding
+import com.example.pedikura.volley_communication.CommunicationFunction
 import com.jsibbold.zoomage.ZoomageView
 
 class CustomerDetailFragment : Fragment() {
@@ -28,15 +29,17 @@ class CustomerDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val db = DataBaseHandler(requireContext())
-        val id = requireArguments().getInt("id")
+        val position = requireArguments().getInt("id")
 
-        val customer = db.searchCustomer(id)
+        val customer = db.searchCustomer(position)
+        val id = customer.id
 
         val splitters = Splitters()
 
         val problemsString = splitters.splitStringDots(customer.problems) + customer.problems_other
         val treatmentString = splitters.splitStringDots(customer.treatment) + customer.treatment_other
 
+        binding.clientCardTV.text = customer.id.toString()
        binding.lname1TV.text =  customer.lname
        binding.fname1TV.text = customer.fname
        binding.age1TV.text = customer.age
@@ -104,6 +107,8 @@ class CustomerDetailFragment : Fragment() {
             setPositiveButton("Ano"){_,_->
                 val db = DataBaseHandler(requireContext())
                 db.deleteCustomer(customerId)
+                val comFunc = CommunicationFunction()
+                comFunc.deleteCustomerInServer(customerId.toString(),requireContext())
                 photoFilesFunc.deleteImageInInternalStorage(requireContext(),footImage)
                 for (item in photosList){
                     photoFilesFunc.deleteImageInInternalStorage(requireContext(),item)

@@ -3,6 +3,7 @@ package com.example.pedikura.add_customer.add_customer_fragment
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -20,6 +21,7 @@ import com.example.pedikura.add_customer.photos.OnPhotosClickListener
 import com.example.pedikura.add_customer.photos.Photo
 import com.example.pedikura.add_customer.photos.PhotosAdapter
 import com.example.pedikura.databinding.FragmentAddCustomerBinding
+import com.example.pedikura.volley_communication.CommunicationFunction
 
 
 class AddCustomerFragment : Fragment() {
@@ -104,7 +106,8 @@ class AddCustomerFragment : Fragment() {
                 addCustomerFunc.setCheckedTreatment(view, customer.treatment, resources)
             }
             customerList.isEmpty() -> {
-                customerId = 1
+                customerId = db.getSequenceOfCustomers().toInt()+1
+
             }
             else -> {
                 customerId = customerList[customerList.lastIndex].id+1
@@ -174,6 +177,14 @@ class AddCustomerFragment : Fragment() {
                     Log.i("test", mProductListAdapter.getPhotos()[i].imageUri.toString())
                 }
 
+                if (!photoFilesFunc.existImageInInternalStorage(requireContext(), "foot$customerId.jpg")) {
+                    val opt = BitmapFactory.Options()
+                    opt.inScaled = true
+                    opt.inMutable = true
+                    val bitmap = BitmapFactory.decodeResource(resources, R.drawable.foot, opt)
+                    photoFilesFunc.saveImageToInternalStorage(bitmap,requireContext(),customerId)
+                }
+
                 val customer = Customer(
                     customerId,
                     lastName,
@@ -193,13 +204,17 @@ class AddCustomerFragment : Fragment() {
                 )
 
 
-
+                val comFunc = CommunicationFunction()
                 if (existingCustomer){
                     db.updateCustomer(customer)
+                    comFunc.updateCustomerInServer(customer,requireContext())
                 }
                 else {
                     db.insertData(customer)
+                    comFunc.addCustomerToServer(customer,requireContext())
                 }
+                val footBmp = photoFilesFunc.loadImageFromInternalStorage(requireContext(), "foot$customerId.jpg")
+                comFunc.uploadImage(footBmp,"foot$customerId")
 
                 findNavController().navigate(R.id.action_addCustomerFragment_to_customersFragment)
             }

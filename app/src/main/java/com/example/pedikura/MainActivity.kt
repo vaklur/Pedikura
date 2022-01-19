@@ -1,14 +1,26 @@
 package com.example.pedikura
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.example.pedikura.databinding.ActivityMainBinding
+import com.example.pedikura.volley_communication.CommunicationFunction
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlin.math.ceil
 
 
 class MainActivity : AppCompatActivity() {
+
+    val firstCallTime = ceil(System.currentTimeMillis()/60_000.0).toLong()*60
+
 
     private lateinit var binding: ActivityMainBinding
 
@@ -19,6 +31,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         setSupportActionBar(binding.toolbar)
+
+        lifecycleScope.launch { delay(firstCallTime - System.currentTimeMillis())
+            while (true){
+                launch {
+                    Log.d("test","minute")
+                    val comFunc = CommunicationFunction()
+                    comFunc.connectionToServer(applicationContext)
+                }
+                delay(60_000)
+            }
+        }
+
 
     }
 
@@ -40,4 +64,8 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+
+
+
 }

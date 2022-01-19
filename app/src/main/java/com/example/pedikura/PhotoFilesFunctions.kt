@@ -42,7 +42,7 @@ class PhotoFilesFunctions {
         val file = wrapper.getDir("images", Context.MODE_PRIVATE)
         val imgFile = File(file, imageName)
         return if (imgFile.exists()) {
-            imgFile.toUri()
+            Uri.fromFile(imgFile)
         } else{
             val bmp: Uri? = null
             bmp!!
@@ -59,7 +59,7 @@ class PhotoFilesFunctions {
         // The bellow line return a directory in internal storage
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
 
-        val imageName = "footPhoto$imageId.jpg"
+        val imageName = "foot$imageId.jpg"
         // Create a file to save the image
         file = File(file, imageName)
 
