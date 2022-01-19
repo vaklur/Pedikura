@@ -1,29 +1,22 @@
 package com.example.pedikura.volley_communication
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.AlertDialog
-import android.content.ContentResolver
 import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
 import android.graphics.Bitmap
 import android.util.Base64
 import android.util.Log
-import android.view.View
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.example.pedikura.*
-import kotlinx.coroutines.delay
 import org.json.JSONException
 import java.io.ByteArrayOutputStream
-import kotlin.properties.Delegates
 
 /**
  * Functions for communication with server.
  */
 class CommunicationFunction {
+
+    val c1 = "klarka"
 
 
     interface VolleyStringResponse {
@@ -33,7 +26,7 @@ class CommunicationFunction {
 
     fun createUserInServer(user: String) {
         val stringRequest = object : StringRequest(
-                Method.POST, "http://192.168.56.1/pedicure/v1/?op=createcustomer",
+                Method.POST, getServerAddress("createcustomer"),
                 Response.Listener<String> { response ->
                     try {
                         Log.d("teest",user)
@@ -60,7 +53,7 @@ class CommunicationFunction {
 
             Log.i("problem", customer.lname)
             val stringRequest = object : StringRequest(
-                    Method.POST, "http://192.168.56.1/pedicure/v1/?op=addcustomer",
+                    Method.POST, getServerAddress("addcustomer"),
                     Response.Listener<String> { response ->
                         try {
 
@@ -77,7 +70,7 @@ class CommunicationFunction {
                 @Throws(AuthFailureError::class)
                 override fun getParams(): Map<String, String> {
                     val params = HashMap<String, String>()
-                    params["customer"] = "test"
+                    params["customer"] = c1
                     params["id"] = customer.id.toString()
                     params["lname"] = customer.lname
                     params["fname"] = customer.fname
@@ -103,7 +96,7 @@ class CommunicationFunction {
         val db = DataBaseHandler(context)
 
         val stringRequest = object : StringRequest(
-                Method.POST, "http://192.168.56.1/pedicure/v1/?op=updatecustomer",
+                Method.POST, getServerAddress("updatecustomer"),
                 Response.Listener<String> { response ->
                     try {
                     } catch (e: JSONException) {
@@ -119,7 +112,7 @@ class CommunicationFunction {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
-                params["customer"] = "test"
+                params["customer"] = c1
                 params["id"] = customer.id.toString()
                 params["lname"] = customer.lname
                 params["fname"] = customer.fname
@@ -147,7 +140,7 @@ class CommunicationFunction {
         val db = DataBaseHandler(context)
 
         val stringRequest = object : StringRequest(
-                Method.POST, "http://192.168.56.1/pedicure/v1/?op=deletecustomer",
+                Method.POST, getServerAddress("deletecustomer"),
                 Response.Listener<String> { response ->
                     try {
                     } catch (e: JSONException) {
@@ -163,7 +156,7 @@ class CommunicationFunction {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
-                params["user"] = "test"
+                params["user"] = c1
                 params["customername"] = customerId
                 return params
             }
@@ -175,18 +168,22 @@ class CommunicationFunction {
 
 
     fun getServerAddress(urlType: String): String {
-        //val settingsSP = SettingsSharPref(activity.applicationContext)
-        val urlRoot = "http://192.168.56.1/pedicure"
+        //val urlRoot = "http://192.168.56.1/pedicure"
+        val urlRoot = "http://unsecureapp.tode.cz/pedicure"
         return when (urlType) {
-            "add_customer" -> urlRoot + "/v1/?op=addcustomer"
-            "create_user" -> urlRoot + "/v1/?op=createcustomer"
+            "addcustomer" -> "$urlRoot/v1/?op=addcustomer"
+            "createuser" -> "$urlRoot/v1/?op=createcustomer"
+            "uploadphoto" -> "$urlRoot/v1/?op=uploadphoto"
+            "updatecustomer" -> "$urlRoot/v1/?op=updatecustomer"
+            "deletecustomer" -> "$urlRoot/v1/?op=deletecustomer"
+            "serverstate" -> "$urlRoot/v1/?op=serverstate"
             else -> urlRoot
         }
     }
 
     fun uploadImage(bitmap: Bitmap, photoName: String) {
         val stringRequest = object : StringRequest(
-                Method.POST, "http://192.168.56.1/pedicure/v1/?op=uploadphoto",
+                Method.POST, getServerAddress("uploadphoto"),
                 Response.Listener<String> { response ->
                     try {
                         Log.d("problem", response)
@@ -225,7 +222,7 @@ class CommunicationFunction {
      */
     private fun testConnectionToServer( volleyResponse: VolleyStringResponse) {
         val stringRequest = object : StringRequest(
-                Method.GET, "http://192.168.56.1/pedicure/v1/?op=serverstate",
+                Method.GET, getServerAddress("serverstate"),
                 Response.Listener<String> { response ->
                     try {
                         volleyResponse.onSuccess()
@@ -258,7 +255,7 @@ class CommunicationFunction {
     fun connectionToServer(context: Context) {
         testConnectionToServer(object : VolleyStringResponse {
             override fun onSuccess() {
-                Log.d("test", "Connect to server")
+                Log.d(c1, "Connect to server")
                 val db = DataBaseHandler(context)
                 val comFunc = CommunicationFunction()
                 val photoFilesFunc = PhotoFilesFunctions()
@@ -284,13 +281,13 @@ class CommunicationFunction {
                             db.deleteOperation(list[i].id)
                         }
                     }
-                    //Log.d("test",list[i].id+list[i].operation)
+                    //Log.d(c1,list[i].id+list[i].operation)
                 }
 
             }
 
             override fun onError(){
-                Log.d("test", "Not connect to server")
+                Log.d(c1, "Not connect to server")
 
             }
         })

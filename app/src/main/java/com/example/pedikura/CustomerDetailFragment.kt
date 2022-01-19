@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.core.text.trimmedLength
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.pedikura.databinding.FragmentCustomerDetailBinding
@@ -36,8 +37,22 @@ class CustomerDetailFragment : Fragment() {
 
         val splitters = Splitters()
 
-        val problemsString = splitters.splitStringDots(customer.problems) + customer.problems_other
-        val treatmentString = splitters.splitStringDots(customer.treatment) + customer.treatment_other
+        var problemsString = splitters.splitStringDots(customer.problems)
+        problemsString = problemsString.replace(",Jiné","")
+        if ((customer.problems_other != "") && (customer.problems.isNotEmpty())){
+            problemsString += ","+customer.problems_other
+        }
+        else if (customer.problems_other != ""){
+            problemsString =customer.problems_other
+        }
+        var treatmentString = splitters.splitStringDots(customer.treatment)
+        treatmentString = treatmentString.replace(",Jiné","")
+        if ((customer.treatment_other != "") && (customer.treatment.isNotEmpty())){
+            treatmentString += ","+customer.treatment_other
+        }
+        else if (customer.treatment_other != ""){
+            treatmentString =customer.treatment_other
+        }
 
         binding.clientCardTV.text = customer.id.toString()
        binding.lname1TV.text =  customer.lname
@@ -57,7 +72,7 @@ class CustomerDetailFragment : Fragment() {
             myImage.setImageBitmap(photoFilesFunc.loadImageFromInternalStorage(requireContext(),customer.foot_image))
         }
         else{
-            myImage.setImageResource(R.drawable.foot_bitmap)
+            myImage.setImageResource(R.drawable.foot)
         }
 
         //test
@@ -76,7 +91,7 @@ class CustomerDetailFragment : Fragment() {
                 imageView.rotation = 90F
             }
             else{
-                imageView.setImageResource(R.drawable.foot_bitmap)
+                imageView.setImageResource(R.drawable.foot)
             }
             ll.addView(imageView)
         }

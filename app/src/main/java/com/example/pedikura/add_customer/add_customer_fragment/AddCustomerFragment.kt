@@ -106,7 +106,12 @@ class AddCustomerFragment : Fragment() {
                 addCustomerFunc.setCheckedTreatment(view, customer.treatment, resources)
             }
             customerList.isEmpty() -> {
-                customerId = db.getSequenceOfCustomers().toInt()+1
+                if (db.getSequenceOfCustomers()==""){
+                    customerId = 1
+                }
+                else {
+                    customerId = db.getSequenceOfCustomers().toInt() + 1
+                }
 
             }
             else -> {
@@ -121,7 +126,7 @@ class AddCustomerFragment : Fragment() {
             myImage.setImageBitmap(footBmp)
         }
         else{
-            myImage.setImageResource(R.drawable.foot_bitmap)
+            myImage.setImageResource(R.drawable.foot)
         }
 
         addCustomerFunc.otherCheckBoxListeners(view)
@@ -233,7 +238,7 @@ class AddCustomerFragment : Fragment() {
             myImage.setImageBitmap(footBmp)
         }
         else{
-            myImage.setImageResource(R.drawable.foot_bitmap)
+            myImage.setImageResource(R.drawable.foot)
         }
     }
 

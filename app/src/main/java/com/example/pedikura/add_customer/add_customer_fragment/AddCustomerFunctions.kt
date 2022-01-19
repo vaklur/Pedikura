@@ -30,9 +30,6 @@ class AddCustomerFunctions {
         if(view.findViewById<CheckBox>(R.id.problems_mp_CHB).isChecked){
             problems = problems+resources.getString(R.string.problems_mp)+"."
         }
-        if(view.findViewById<CheckBox>(R.id.problems_n_CHB).isChecked){
-            problems = problems+resources.getString(R.string.problems_n)+"."
-        }
         if(view.findViewById<CheckBox>(R.id.problems_pc_CHB).isChecked){
             problems = problems+resources.getString(R.string.problems_pc)+"."
         }
@@ -54,6 +51,9 @@ class AddCustomerFunctions {
         if(view.findViewById<CheckBox>(R.id.problems_h_CHB).isChecked){
             problems = problems+resources.getString(R.string.problems_h)+"."
         }
+         if(view.findViewById<CheckBox>(R.id.problems_other_CHB).isChecked){
+             problems = problems+resources.getString(R.string.problems_others)+"."
+         }
         return  problems
     }
 
@@ -80,9 +80,6 @@ class AddCustomerFunctions {
         if(problemsList.contains(resources.getString(R.string.problems_mp))){
             view.findViewById<CheckBox>(R.id.problems_mp_CHB).isChecked = true
         }
-        if(problemsList.contains(resources.getString(R.string.problems_n))){
-            view.findViewById<CheckBox>(R.id.problems_n_CHB).isChecked = true
-        }
         if(problemsList.contains(resources.getString(R.string.problems_pc))){
             view.findViewById<CheckBox>(R.id.problems_pc_CHB).isChecked = true
         }
@@ -104,6 +101,10 @@ class AddCustomerFunctions {
         if(problemsList.contains(resources.getString(R.string.problems_h))){
             view.findViewById<CheckBox>(R.id.problems_h_CHB).isChecked = true
         }
+         if(problemsList.contains(resources.getString(R.string.problems_others))){
+             view.findViewById<CheckBox>(R.id.problems_other_CHB).isChecked = true
+             view.findViewById<EditText>(R.id.problems_other_ET).visibility = View.VISIBLE
+         }
     }
 
      fun getCheckedTreatment(view: View,resources: Resources):String{
@@ -126,6 +127,12 @@ class AddCustomerFunctions {
         if(view.findViewById<CheckBox>(R.id.treatment_h_CHB).isChecked){
             treatment = treatment+resources.getString(R.string.treatment_h)+"."
         }
+         if(view.findViewById<CheckBox>(R.id.treatment_n_CHB).isChecked){
+             treatment = treatment+resources.getString(R.string.problems_n)+"."
+         }
+         if(view.findViewById<CheckBox>(R.id.treatment_others_CHB).isChecked){
+             treatment = treatment+resources.getString(R.string.problems_others)+"."
+         }
 
         return  treatment
     }
@@ -150,6 +157,13 @@ class AddCustomerFunctions {
         if (problemsList.contains(resources.getString(R.string.treatment_h))) {
             view.findViewById<CheckBox>(R.id.treatment_h_CHB).isChecked = true
         }
+         if(problemsList.contains(resources.getString(R.string.problems_n))){
+             view.findViewById<CheckBox>(R.id.treatment_n_CHB).isChecked = true
+         }
+         if(problemsList.contains(resources.getString(R.string.treatment_others))){
+             view.findViewById<CheckBox>(R.id.treatment_others_CHB).isChecked = true
+             view.findViewById<EditText>(R.id.treatment_others_ET).visibility = View.VISIBLE
+         }
     }
 
     fun otherCheckBoxListeners(view: View){
