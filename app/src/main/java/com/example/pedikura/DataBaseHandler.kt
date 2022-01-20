@@ -6,6 +6,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
+import com.example.pedikura.customers.Customer
 
 const val DATABASENAME = "MY BE CUSTOMERS"
 const val TABLENAME = "Customers"
@@ -69,7 +70,7 @@ class DataBaseHandler(val context: Context) : SQLiteOpenHelper(context, DATABASE
         }
         return sequence
     }
-    fun insertData(customer:Customer) {
+    fun insertData(customer: Customer) {
         val database = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(COL_LNAME, customer.lname)
@@ -162,7 +163,7 @@ class DataBaseHandler(val context: Context) : SQLiteOpenHelper(context, DATABASE
     }
 
     @SuppressLint("Range")
-    fun searchCustomer(id:Int):Customer{
+    fun searchCustomer(id:Int): Customer {
         val db = this.readableDatabase
         val query = "Select * from $TABLENAME where id like '%$id%'"
         val result = db.rawQuery(query,null)

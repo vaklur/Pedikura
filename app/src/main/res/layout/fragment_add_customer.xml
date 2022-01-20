@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".add_customer.add_customer_fragment.AddCustomerFragment">
+    tools:context=".customers.add_customer.add_customer_fragment.AddCustomerFragment">
 
 
 

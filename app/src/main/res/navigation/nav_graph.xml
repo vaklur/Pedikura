@@ -23,7 +23,7 @@
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/addCustomerFragment"
-        android:name="com.example.pedikura.add_customer.add_customer_fragment.AddCustomerFragment"
+        android:name="com.example.pedikura.customers.add_customer.add_customer_fragment.AddCustomerFragment"
         android:label="fragment_add_customer"
         tools:layout="@layout/fragment_add_customer" >
         <action
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/customerDetailFragment"
-        android:name="com.example.pedikura.CustomerDetailFragment"
+        android:name="com.example.pedikura.customers.CustomerDetailFragment"
         android:label="fragment_customer_detail"
         tools:layout="@layout/fragment_customer_detail" >
         <action
@@ -47,12 +47,12 @@
     </fragment>
     <fragment
         android:id="@+id/footDrawFragment"
-        android:name="com.example.pedikura.add_customer.foot_drawing.FootDrawFragment"
+        android:name="com.example.pedikura.customers.add_customer.foot_drawing.FootDrawFragment"
         android:label="fragment_foot_draw"
         tools:layout="@layout/fragment_foot_draw" /><action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment"/>
     <fragment
         android:id="@+id/logInFragment"
-        android:name="com.example.pedikura.LogInFragment"
+        android:name="com.example.pedikura.loging.LogInFragment"
         android:label="fragment_log_in"
         tools:layout="@layout/fragment_log_in" >
         <action
@@ -64,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.pedikura.SignUpFragment"
+        android:name="com.example.pedikura.loging.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action

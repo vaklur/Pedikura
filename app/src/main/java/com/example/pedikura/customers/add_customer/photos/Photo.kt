@@ -1,4 +1,4 @@
-package com.example.pedikura.add_customer.photos
+package com.example.pedikura.customers.add_customer.photos
 
 import android.net.Uri
 

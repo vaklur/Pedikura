@@ -1,4 +1,4 @@
-package com.example.pedikura
+package com.example.pedikura.customers
 
 data class Customer(
     var id:Int,

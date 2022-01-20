@@ -1,17 +1,14 @@
-package com.example.pedikura
+package com.example.pedikura.loging
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.navigation.fragment.FragmentNavigator
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.example.pedikura.R
 import com.example.pedikura.databinding.FragmentLogInBinding
-import com.example.pedikura.databinding.FragmentSignUpBinding
 import com.example.pedikura.volley_communication.CommunicationFunction
 
 
@@ -23,7 +20,7 @@ class LogInFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentLogInBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -36,10 +33,15 @@ class LogInFragment : Fragment() {
             findNavController().navigate(R.id.action_logIn_to_signUp)
         }
         binding.buttonLogin.setOnClickListener {
-            val comFunc = CommunicationFunction()
             val username = binding.username.text.toString()
             val password = binding.password.text.toString()
+            if (username!=""&& password!=""){
+            val comFunc = CommunicationFunction()
             comFunc.logInToServer(username,password,view,requireContext())
+            }
+            else {
+                Toast.makeText(requireContext(),"Údaje musí být vyplněné!",Toast.LENGTH_LONG).show()
+            }
             
         }
     }

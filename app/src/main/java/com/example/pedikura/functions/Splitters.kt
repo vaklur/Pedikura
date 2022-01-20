@@ -1,4 +1,4 @@
-package com.example.pedikura
+package com.example.pedikura.functions
 
 import android.util.Log
 

@@ -1,12 +1,14 @@
-package com.example.pedikura
+package com.example.pedikura.loging
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.pedikura.R
 import com.example.pedikura.databinding.FragmentSignUpBinding
 import com.example.pedikura.volley_communication.CommunicationFunction
 
@@ -37,7 +39,12 @@ class SignUpFragment : Fragment() {
             val email = binding.email.text.toString()
             val username = binding.username.text.toString()
             val password = binding.password.text.toString()
-            comFunc.signUpToServer(fullname,email,username,password,view,requireContext())
+            if (fullname!="" && email!="" && username!="" && password!="") {
+                comFunc.signUpToServer(fullname, email, username, password, view, requireContext())
+            }
+            else {
+                Toast.makeText(requireContext(),"Údaje musí být vyplněné!", Toast.LENGTH_LONG).show()
+            }
         }
     }
 

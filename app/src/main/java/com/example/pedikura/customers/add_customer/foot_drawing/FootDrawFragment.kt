@@ -1,20 +1,12 @@
-package com.example.pedikura.add_customer.foot_drawing
+package com.example.pedikura.customers.add_customer.foot_drawing
 
-import android.content.Context
-import android.content.ContextWrapper
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.pedikura.PhotoFilesFunctions
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
+import com.example.pedikura.functions.PhotoFilesFunctions
 
 
 class FootDrawFragment : Fragment() {

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.pedikura.databinding.ActivityMainBinding
+import com.example.pedikura.functions.SharedPreferenceFunctions
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,9 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        val sharedPrefFile = "pedicure"
-        val sharedPreferences = this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
-        if (sharedPreferences.getBoolean("loggedIn",false)){
+        if (SharedPreferenceFunctions().getLoggedIn(this)){
             Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.customersFragment)
         }
 
@@ -51,13 +50,7 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> {Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.action_global_settingsFragment)
             return true}
             R.id.action_logout ->{Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.logInFragment)
-                val sharedPrefFile = "pedicure"
-                val sharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-                val editor: SharedPreferences.Editor =  sharedPreferences.edit()
-                editor.putString("username","")
-                editor.putBoolean("loggedIn",false)
-                editor.apply()
-                editor.commit()
+                SharedPreferenceFunctions().saveSP("",false,this)
                 return true
             }
             else -> super.onOptionsItemSelected(item)

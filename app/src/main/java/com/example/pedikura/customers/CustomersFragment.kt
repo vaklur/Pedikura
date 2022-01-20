@@ -9,14 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pedikura.Customer
 import com.example.pedikura.DataBaseHandler
 import com.example.pedikura.R
+import com.example.pedikura.functions.SharedPreferenceFunctions
 import com.example.pedikura.volley_communication.CommunicationFunction
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -63,6 +63,8 @@ class CustomersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val db = DataBaseHandler(requireContext())
         customers = db.loadCustomers()
+
+        view.findViewById<TextView>(R.id.username_TV).text = SharedPreferenceFunctions().getUsername(requireContext())
 
         recyclerView = view.findViewById(R.id.recyclerView)
         attachAdapter(customers)

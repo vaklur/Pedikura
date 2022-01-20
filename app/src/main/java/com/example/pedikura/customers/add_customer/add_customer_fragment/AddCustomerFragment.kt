@@ -1,4 +1,4 @@
-package com.example.pedikura.add_customer.add_customer_fragment
+package com.example.pedikura.customers.add_customer.add_customer_fragment
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -16,11 +16,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pedikura.*
-import com.example.pedikura.PhotoFilesFunctions
-import com.example.pedikura.add_customer.photos.OnPhotosClickListener
-import com.example.pedikura.add_customer.photos.Photo
-import com.example.pedikura.add_customer.photos.PhotosAdapter
+import com.example.pedikura.customers.Customer
+import com.example.pedikura.functions.PhotoFilesFunctions
+import com.example.pedikura.customers.add_customer.photos.OnPhotosClickListener
+import com.example.pedikura.customers.add_customer.photos.Photo
+import com.example.pedikura.customers.add_customer.photos.PhotosAdapter
 import com.example.pedikura.databinding.FragmentAddCustomerBinding
+import com.example.pedikura.functions.Splitters
 import com.example.pedikura.volley_communication.CommunicationFunction
 
 

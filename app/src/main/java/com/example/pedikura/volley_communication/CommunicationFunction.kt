@@ -7,16 +7,14 @@ import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.fragment.findNavController
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.example.pedikura.*
+import com.example.pedikura.customers.Customer
+import com.example.pedikura.functions.PhotoFilesFunctions
+import com.example.pedikura.functions.SharedPreferenceFunctions
 import org.json.JSONException
 import java.io.ByteArrayOutputStream
 
@@ -64,13 +62,7 @@ class CommunicationFunction {
                     when (response) {
                         "Login Success" -> {
                             Log.d("test", response)
-                            val sharedPrefFile = "pedicure"
-                            val sharedPreferences = context.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-                            val editor:SharedPreferences.Editor =  sharedPreferences.edit()
-                            editor.putString("username",username)
-                            editor.putBoolean("loggedIn",true)
-                            editor.apply()
-                            editor.commit()
+                            SharedPreferenceFunctions().saveSP(username,true,context)
                             view.findNavController().navigate(R.id.action_logIn_to_customersFragment)
 
                         }
@@ -107,18 +99,23 @@ class CommunicationFunction {
             Method.POST, getServerAddress("signup"),
             Response.Listener<String> { response ->
                 try {
+                    Log.d("test",response)
                     when (response) {
-                        "Sign Up Success" -> {
+                        "SignSuccess" -> {
+                            Log.d("test","success")
                             view.findNavController().navigate(R.id.action_signUp_to_logIn)
 
+
                         }
-                        "Sign up Failed" -> {
-                            Log.d("test",response)
+                        "SignFailed" -> {
+                            Log.d("test","failed")
                             Toast.makeText(context,"Registrace se nezdařila - zkuste změnit jméno či email.",Toast.LENGTH_LONG).show()
+
 
                         }
                         else -> {
-                            Log.d("test",response)
+                            Log.d("test","else")
+
 
                         }
                     }
@@ -144,7 +141,7 @@ class CommunicationFunction {
     }
 
 
-    fun addCustomerToServer(customer:Customer,context: Context) {
+    fun addCustomerToServer(customer: Customer, context: Context) {
         val db = DataBaseHandler(context)
 
             Log.i("problem", customer.lname)
@@ -188,7 +185,7 @@ class CommunicationFunction {
             VolleySingleton.instance?.addToRequestQueue(stringRequest)
     }
 
-    fun updateCustomerInServer(customer: Customer,context: Context) {
+    fun updateCustomerInServer(customer: Customer, context: Context) {
         val db = DataBaseHandler(context)
 
         val stringRequest = object : StringRequest(

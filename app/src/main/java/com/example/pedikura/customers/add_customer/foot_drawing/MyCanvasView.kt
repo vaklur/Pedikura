@@ -1,4 +1,4 @@
-package com.example.pedikura.add_customer.foot_drawing
+package com.example.pedikura.customers.add_customer.foot_drawing
 
 import android.annotation.SuppressLint
 import android.content.Context

@@ -1,13 +1,16 @@
-package com.example.pedikura
+package com.example.pedikura.customers
 
 import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.core.text.trimmedLength
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.pedikura.DataBaseHandler
+import com.example.pedikura.R
 import com.example.pedikura.databinding.FragmentCustomerDetailBinding
+import com.example.pedikura.functions.PhotoFilesFunctions
+import com.example.pedikura.functions.Splitters
 import com.example.pedikura.volley_communication.CommunicationFunction
 import com.jsibbold.zoomage.ZoomageView
 

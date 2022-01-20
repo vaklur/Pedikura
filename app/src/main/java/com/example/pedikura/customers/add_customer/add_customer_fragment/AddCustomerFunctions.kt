@@ -1,4 +1,4 @@
-package com.example.pedikura.add_customer.add_customer_fragment
+package com.example.pedikura.customers.add_customer.add_customer_fragment
 
 import android.content.res.Resources
 import android.view.View
