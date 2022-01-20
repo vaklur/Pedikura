@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/customersFragment">
+    app:startDestination="@id/logInFragment">
     <fragment
         android:id="@+id/customersFragment"
         android:name="com.example.pedikura.customers.CustomersFragment"
@@ -15,9 +15,6 @@
         <action
             android:id="@+id/action_customersFragment_to_addCustomerFragment"
             app:destination="@id/addCustomerFragment" />
-        <action
-            android:id="@+id/action_customersFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -53,4 +50,25 @@
         android:name="com.example.pedikura.add_customer.foot_drawing.FootDrawFragment"
         android:label="fragment_foot_draw"
         tools:layout="@layout/fragment_foot_draw" /><action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment"/>
+    <fragment
+        android:id="@+id/logInFragment"
+        android:name="com.example.pedikura.LogInFragment"
+        android:label="fragment_log_in"
+        tools:layout="@layout/fragment_log_in" >
+        <action
+            android:id="@+id/action_logIn_to_signUp"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_logIn_to_customersFragment"
+            app:destination="@id/customersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.pedikura.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUp_to_logIn"
+            app:destination="@id/logInFragment" />
+    </fragment>
 </navigation>

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Pedikura</string>
     <string name="action_settings">Nastavení</string>
+    <string name="action_logout">Odhlásit se</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
@@ -59,6 +60,19 @@
 
     <string name="customer_photos">Fotky klienta:</string>
     <string name="edit_photos_BTN">Přidat fotku</string>
+
+    <string name="login_title">Přihlášení</string>
+    <string name="login">Přihlásit</string>
+    <string name="signuphere">Registrovat se zde</string>
+
+    <string name="signup_title">Registrace</string>
+    <string name="signup">Registrovat</string>
+    <string name="loginhere">Přihlásit se zde</string>
+
+    <string name="fullname">Jméno a přijmení</string>
+    <string name="email">Emailová adresa</string>
+    <string name="password">Heslo</string>
+    <string name="username">Přezdívka</string>
 
 
 </resources>

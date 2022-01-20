@@ -1,9 +1,18 @@
 package com.example.pedikura.volley_communication
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.util.Base64
 import android.util.Log
+import android.view.View
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -41,6 +50,93 @@ class CommunicationFunction {
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
                 params["customer"] = user
+                return params
+            }
+        }
+        VolleySingleton.instance?.addToRequestQueue(stringRequest)
+    }
+
+    fun logInToServer(username:String,password:String,view:View, context: Context) {
+        val stringRequest = object : StringRequest(
+            Method.POST, getServerAddress("login"),
+            Response.Listener<String> { response ->
+                try {
+                    when (response) {
+                        "Login Success" -> {
+                            Log.d("test", response)
+                            val sharedPrefFile = "pedicure"
+                            val sharedPreferences = context.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+                            val editor:SharedPreferences.Editor =  sharedPreferences.edit()
+                            editor.putString("username",username)
+                            editor.putBoolean("loggedIn",true)
+                            editor.apply()
+                            editor.commit()
+                            view.findNavController().navigate(R.id.action_logIn_to_customersFragment)
+
+                        }
+                        "Username or Password wrong" -> {
+                            Log.d("test", response)
+                            Toast.makeText(context,"Přezdívka nebo heslo je nesprávné",Toast.LENGTH_LONG).show()
+
+                        }
+                        else -> {
+                            Log.d("test", response)
+
+                        }
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+
+            Response.ErrorListener {Toast.makeText(context,"Nelze se přihlásit - problém s připojením k serveru",Toast.LENGTH_LONG).show() }) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                val params = HashMap<String, String>()
+                params["username"] = username
+                params["password"] = password
+                return params
+            }
+        }
+        VolleySingleton.instance?.addToRequestQueue(stringRequest)
+    }
+
+    fun signUpToServer(fullname:String,email:String,username:String,password:String,view: View,context: Context) {
+        val stringRequest = object : StringRequest(
+            Method.POST, getServerAddress("signup"),
+            Response.Listener<String> { response ->
+                try {
+                    when (response) {
+                        "Sign Up Success" -> {
+                            view.findNavController().navigate(R.id.action_signUp_to_logIn)
+
+                        }
+                        "Sign up Failed" -> {
+                            Log.d("test",response)
+                            Toast.makeText(context,"Registrace se nezdařila - zkuste změnit jméno či email.",Toast.LENGTH_LONG).show()
+
+                        }
+                        else -> {
+                            Log.d("test",response)
+
+                        }
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+
+            Response.ErrorListener { Toast.makeText(context,"Nelze se přihlásit - problém s připojením k serveru",Toast.LENGTH_LONG).show()
+                Log.d("problem", "no send") }) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                val params = HashMap<String, String>()
+                params["fullname"] = fullname
+                params["email"] = email
+                params["username"] = username
+                params["password"] = password
                 return params
             }
         }
@@ -168,8 +264,8 @@ class CommunicationFunction {
 
 
     fun getServerAddress(urlType: String): String {
-        //val urlRoot = "http://192.168.56.1/pedicure"
-        val urlRoot = "http://unsecureapp.tode.cz/pedicure"
+        val urlRoot = "http://192.168.56.1/pedicure"
+        //val urlRoot = "http://unsecureapp.tode.cz/pedicure"
         return when (urlType) {
             "addcustomer" -> "$urlRoot/v1/?op=addcustomer"
             "createuser" -> "$urlRoot/v1/?op=createcustomer"
@@ -177,6 +273,8 @@ class CommunicationFunction {
             "updatecustomer" -> "$urlRoot/v1/?op=updatecustomer"
             "deletecustomer" -> "$urlRoot/v1/?op=deletecustomer"
             "serverstate" -> "$urlRoot/v1/?op=serverstate"
+            "login" -> "$urlRoot/login.php"
+            "signup" -> "$urlRoot/signup.php"
             else -> urlRoot
         }
     }

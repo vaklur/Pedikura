@@ -3,19 +3,26 @@ package com.example.pedikura.customers
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pedikura.Customer
 import com.example.pedikura.DataBaseHandler
 import com.example.pedikura.R
+import com.example.pedikura.volley_communication.CommunicationFunction
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.ceil
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -24,6 +31,24 @@ class CustomersFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private var customers = ArrayList<Customer>()
+
+    private val firstCallTime = ceil(System.currentTimeMillis()/60_000.0).toLong()*60
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
+        lifecycleScope.launch { delay(firstCallTime - System.currentTimeMillis())
+            while (true){
+                launch {
+                    Log.d("test","minute")
+                    val comFunc = CommunicationFunction()
+                    comFunc.connectionToServer(requireContext())
+                }
+                delay(60_000)
+            }
+        }
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,

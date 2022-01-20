@@ -68,7 +68,7 @@ class PhotoFilesFunctions {
             val stream: OutputStream = FileOutputStream(file)
 
             // Compress bitmap
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 12, stream)
 
             // Flush the stream
             stream.flush()
