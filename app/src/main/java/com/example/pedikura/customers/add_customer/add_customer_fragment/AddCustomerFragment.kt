@@ -22,6 +22,7 @@ import com.example.pedikura.customers.add_customer.photos.OnPhotosClickListener
 import com.example.pedikura.customers.add_customer.photos.Photo
 import com.example.pedikura.customers.add_customer.photos.PhotosAdapter
 import com.example.pedikura.databinding.FragmentAddCustomerBinding
+import com.example.pedikura.functions.SharedPreferenceFunctions
 import com.example.pedikura.functions.Splitters
 import com.example.pedikura.volley_communication.CommunicationFunction
 
@@ -68,7 +69,7 @@ class AddCustomerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val db = DataBaseHandler(requireContext())
+        val db = DataBaseHandler(requireContext(), SharedPreferenceFunctions().getUsername(requireContext()).toString())
 
         photoList = binding.photoRV
         mProductListAdapter = PhotosAdapter(mOnPhotosClickListener = mOnProductClickListener)
@@ -211,7 +212,7 @@ class AddCustomerFragment : Fragment() {
                 )
 
 
-                val comFunc = CommunicationFunction()
+                val comFunc = CommunicationFunction(requireContext())
                 if (existingCustomer){
                     db.updateCustomer(customer)
                     comFunc.updateCustomerInServer(customer,requireContext())

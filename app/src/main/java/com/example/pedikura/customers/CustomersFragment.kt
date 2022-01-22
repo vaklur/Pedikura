@@ -7,15 +7,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pedikura.DataBaseHandler
 import com.example.pedikura.R
+import com.example.pedikura.databinding.FragmentCustomersBinding
 import com.example.pedikura.functions.SharedPreferenceFunctions
 import com.example.pedikura.volley_communication.CommunicationFunction
 import kotlinx.coroutines.delay
@@ -28,6 +26,8 @@ import kotlin.math.ceil
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class CustomersFragment : Fragment() {
+    private var _binding: FragmentCustomersBinding?=null
+    private val binding get() = _binding!!
 
     private lateinit var recyclerView: RecyclerView
     private var customers = ArrayList<Customer>()
@@ -42,7 +42,7 @@ class CustomersFragment : Fragment() {
             while (true){
                 launch {
                     Log.d("test","minute")
-                    val comFunc = CommunicationFunction()
+                    val comFunc = CommunicationFunction(requireContext())
                     comFunc.connectionToServer(requireContext())
                 }
                 delay(60_000)
@@ -53,28 +53,25 @@ class CustomersFragment : Fragment() {
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.customers_fragment, container, false)
+    ): View {
+        _binding = FragmentCustomersBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val db = DataBaseHandler(requireContext())
+        val db = DataBaseHandler(requireContext(),SharedPreferenceFunctions().getUsername(requireContext()).toString())
         customers = db.loadCustomers()
 
-        view.findViewById<TextView>(R.id.username_TV).text = SharedPreferenceFunctions().getUsername(requireContext())
+        binding.usernameTV.text = SharedPreferenceFunctions().getUsername(requireContext())
 
-        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView = binding.recyclerView
         attachAdapter(customers)
         toggleRecyclerView(customers)
 
-        // Use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
 
-        val searchET = view.findViewById<EditText>(R.id.search_customer_ET)
-        searchET.addTextChangedListener(object : TextWatcher {
+        binding.searchCustomerET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
@@ -89,7 +86,7 @@ class CustomersFragment : Fragment() {
         })
 
 
-        view.findViewById<Button>(R.id.add_BTN).setOnClickListener {
+        binding.addBTN.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt("id", -1)
             findNavController().navigate(R.id.action_customersFragment_to_addCustomerFragment, bundle)

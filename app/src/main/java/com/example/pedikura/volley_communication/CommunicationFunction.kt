@@ -1,7 +1,6 @@
 package com.example.pedikura.volley_communication
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.util.Base64
 import android.util.Log
@@ -21,9 +20,9 @@ import java.io.ByteArrayOutputStream
 /**
  * Functions for communication with server.
  */
-class CommunicationFunction {
+class CommunicationFunction(context: Context) {
 
-    val c1 = "klarka"
+    val actualUsername = SharedPreferenceFunctions().getUsername(context)
 
 
     interface VolleyStringResponse {
@@ -142,7 +141,7 @@ class CommunicationFunction {
 
 
     fun addCustomerToServer(customer: Customer, context: Context) {
-        val db = DataBaseHandler(context)
+        val db = DataBaseHandler(context,SharedPreferenceFunctions().getUsername(context).toString())
 
             Log.i("problem", customer.lname)
             val stringRequest = object : StringRequest(
@@ -163,7 +162,7 @@ class CommunicationFunction {
                 @Throws(AuthFailureError::class)
                 override fun getParams(): Map<String, String> {
                     val params = HashMap<String, String>()
-                    params["customer"] = c1
+                    params["customer"] = actualUsername.toString()
                     params["id"] = customer.id.toString()
                     params["lname"] = customer.lname
                     params["fname"] = customer.fname
@@ -186,7 +185,7 @@ class CommunicationFunction {
     }
 
     fun updateCustomerInServer(customer: Customer, context: Context) {
-        val db = DataBaseHandler(context)
+        val db = DataBaseHandler(context,SharedPreferenceFunctions().getUsername(context).toString())
 
         val stringRequest = object : StringRequest(
                 Method.POST, getServerAddress("updatecustomer"),
@@ -205,7 +204,7 @@ class CommunicationFunction {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
-                params["customer"] = c1
+                params["customer"] = actualUsername.toString()
                 params["id"] = customer.id.toString()
                 params["lname"] = customer.lname
                 params["fname"] = customer.fname
@@ -230,7 +229,7 @@ class CommunicationFunction {
 
 
     fun deleteCustomerInServer(customerId: String,context: Context) {
-        val db = DataBaseHandler(context)
+        val db = DataBaseHandler(context,SharedPreferenceFunctions().getUsername(context).toString())
 
         val stringRequest = object : StringRequest(
                 Method.POST, getServerAddress("deletecustomer"),
@@ -249,8 +248,8 @@ class CommunicationFunction {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
-                params["user"] = c1
-                params["customername"] = customerId
+                params["username"] = actualUsername.toString()
+                params["id"] = customerId
                 return params
             }
         }
@@ -293,6 +292,7 @@ class CommunicationFunction {
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
                 Log.d("problem", "Upload image")
+                params["username"] = actualUsername.toString()
                 params["photoname"] = photoName
                 params["photo"] = imageToString(bitmap)
                 return params
@@ -350,9 +350,9 @@ class CommunicationFunction {
     fun connectionToServer(context: Context) {
         testConnectionToServer(object : VolleyStringResponse {
             override fun onSuccess() {
-                Log.d(c1, "Connect to server")
-                val db = DataBaseHandler(context)
-                val comFunc = CommunicationFunction()
+                Log.d(actualUsername, "Connect to server")
+                val db = DataBaseHandler(context,SharedPreferenceFunctions().getUsername(context).toString())
+                val comFunc = CommunicationFunction(context,)
                 val photoFilesFunc = PhotoFilesFunctions()
                 val list = db.readDataOperation()
                 for (i in 0 until list.size){
@@ -376,13 +376,13 @@ class CommunicationFunction {
                             db.deleteOperation(list[i].id)
                         }
                     }
-                    //Log.d(c1,list[i].id+list[i].operation)
+                    //Log.d(actualUsername,list[i].id+list[i].operation)
                 }
 
             }
 
             override fun onError(){
-                Log.d(c1, "Not connect to server")
+                Log.d(actualUsername, "Not connect to server")
 
             }
         })

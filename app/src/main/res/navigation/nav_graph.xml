@@ -8,7 +8,7 @@
         android:id="@+id/customersFragment"
         android:name="com.example.pedikura.customers.CustomersFragment"
         android:label="customers_fragment"
-        tools:layout="@layout/customers_fragment" >
+        tools:layout="@layout/fragment_customers" >
         <action
             android:id="@+id/action_customersFragment_to_customerDetailFragment"
             app:destination="@id/customerDetailFragment" />

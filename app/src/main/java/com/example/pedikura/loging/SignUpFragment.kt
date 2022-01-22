@@ -32,7 +32,7 @@ class SignUpFragment : Fragment() {
             findNavController().navigate(R.id.action_signUp_to_logIn)
         }
 
-        val comFunc = CommunicationFunction()
+        val comFunc = CommunicationFunction(requireContext())
         binding.buttonSignUp.setOnClickListener {
             Log.d("test","signup")
             val fullname = binding.fullname.text.toString()

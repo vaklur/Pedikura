@@ -10,6 +10,7 @@ import com.example.pedikura.DataBaseHandler
 import com.example.pedikura.R
 import com.example.pedikura.databinding.FragmentCustomerDetailBinding
 import com.example.pedikura.functions.PhotoFilesFunctions
+import com.example.pedikura.functions.SharedPreferenceFunctions
 import com.example.pedikura.functions.Splitters
 import com.example.pedikura.volley_communication.CommunicationFunction
 import com.jsibbold.zoomage.ZoomageView
@@ -32,7 +33,7 @@ class CustomerDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val db = DataBaseHandler(requireContext())
+        val db = DataBaseHandler(requireContext(),SharedPreferenceFunctions().getUsername(requireContext()).toString())
         val position = requireArguments().getInt("id")
 
         val customer = db.searchCustomer(position)
@@ -123,9 +124,9 @@ class CustomerDetailFragment : Fragment() {
             setTitle("Smazání klienta z databáze")
             setMessage("Opravdu chcete smazat $customerName z databáze klientů?")
             setPositiveButton("Ano"){_,_->
-                val db = DataBaseHandler(requireContext())
+                val db = DataBaseHandler(requireContext(), SharedPreferenceFunctions().getUsername(requireContext()).toString())
                 db.deleteCustomer(customerId)
-                val comFunc = CommunicationFunction()
+                val comFunc = CommunicationFunction(requireContext())
                 comFunc.deleteCustomerInServer(customerId.toString(),requireContext())
                 photoFilesFunc.deleteImageInInternalStorage(requireContext(),footImage)
                 for (item in photosList){

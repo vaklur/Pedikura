@@ -36,7 +36,7 @@ class LogInFragment : Fragment() {
             val username = binding.username.text.toString()
             val password = binding.password.text.toString()
             if (username!=""&& password!=""){
-            val comFunc = CommunicationFunction()
+            val comFunc = CommunicationFunction(requireContext())
             comFunc.logInToServer(username,password,view,requireContext())
             }
             else {

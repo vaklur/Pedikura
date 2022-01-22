@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
 import com.example.pedikura.customers.Customer
 
-const val DATABASENAME = "MY BE CUSTOMERS"
 const val TABLENAME = "Customers"
 const val COL_ID = "id"
 const val COL_LNAME = "lname"
@@ -36,7 +35,7 @@ const val COL_SEQUENCE = "seq"
 
 
 
-class DataBaseHandler(val context: Context) : SQLiteOpenHelper(context, DATABASENAME, null,
+class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenHelper(context, databsName, null,
         1) {
     override fun onCreate(db: SQLiteDatabase?) {
         val createTable =
@@ -244,7 +243,7 @@ class DataBaseHandler(val context: Context) : SQLiteOpenHelper(context, DATABASE
     }
 
     fun loadCustomers():ArrayList<Customer>{
-        val db = DataBaseHandler(context)
+        val db = DataBaseHandler(context,databsName)
         //db.insertData(Customer(1,"s","s","s","s","s","s","s","s","s","s","s","s","s"))
         val data = db.readData()
         val customersList = ArrayList<Customer>()
