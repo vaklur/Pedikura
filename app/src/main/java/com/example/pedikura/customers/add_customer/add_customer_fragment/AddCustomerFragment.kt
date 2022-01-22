@@ -41,6 +41,8 @@ class AddCustomerFragment : Fragment() {
     private val photoFilesFunc: PhotoFilesFunctions = PhotoFilesFunctions()
 
 
+
+
     private val mOnProductClickListener = object : OnPhotosClickListener {
         override fun onDelete(model: Photo) {
             // just remove the item from list
@@ -67,9 +69,13 @@ class AddCustomerFragment : Fragment() {
         return binding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val db = DataBaseHandler(requireContext(), SharedPreferenceFunctions().getUsername(requireContext()).toString())
+
+        val username = SharedPreferenceFunctions().getUsername(requireContext()).toString()
 
         photoList = binding.photoRV
         mProductListAdapter = PhotosAdapter(mOnPhotosClickListener = mOnProductClickListener)
@@ -109,11 +115,10 @@ class AddCustomerFragment : Fragment() {
                 addCustomerFunc.setCheckedTreatment(view, customer.treatment, resources)
             }
             customerList.isEmpty() -> {
-                if (db.getSequenceOfCustomers()==""){
-                    customerId = 1
-                }
-                else {
-                    customerId = db.getSequenceOfCustomers().toInt() + 1
+                customerId = if (db.getSequenceOfCustomers()==""){
+                    1
+                } else {
+                    db.getSequenceOfCustomers().toInt() + 1
                 }
 
             }
@@ -122,10 +127,12 @@ class AddCustomerFragment : Fragment() {
             }
         }
 
+        binding.clientCardTV.text = customerId.toString()
+
         // Set foot image
         val myImage = binding.footIV
-        if (photoFilesFunc.existImageInInternalStorage(requireContext(), "foot$customerId.jpg")) {
-            val footBmp = photoFilesFunc.loadImageFromInternalStorage(requireContext(), "foot$customerId.jpg")
+        if (photoFilesFunc.existImageInInternalStorage(requireContext(), "$username$customerId.jpg")) {
+            val footBmp = photoFilesFunc.loadImageFromInternalStorage(requireContext(), "$username$customerId.jpg")
             myImage.setImageBitmap(footBmp)
         }
         else{
@@ -160,7 +167,7 @@ class AddCustomerFragment : Fragment() {
             val notes = binding.notesET.text.toString()
             val recommendation = binding.recommendationET.text.toString()
 
-            val footImage = "foot$customerId.jpg"
+            val footImage = "$username$customerId.jpg"
             var photosString =""
 
             if (lastName=="" || firstName==""){
@@ -185,7 +192,7 @@ class AddCustomerFragment : Fragment() {
                     Log.i("test", mProductListAdapter.getPhotos()[i].imageUri.toString())
                 }
 
-                if (!photoFilesFunc.existImageInInternalStorage(requireContext(), "foot$customerId.jpg")) {
+                if (!photoFilesFunc.existImageInInternalStorage(requireContext(), "$username$customerId.jpg")) {
                     val opt = BitmapFactory.Options()
                     opt.inScaled = true
                     opt.inMutable = true
@@ -221,8 +228,8 @@ class AddCustomerFragment : Fragment() {
                     db.insertData(customer)
                     comFunc.addCustomerToServer(customer,requireContext())
                 }
-                val footBmp = photoFilesFunc.loadImageFromInternalStorage(requireContext(), "foot$customerId.jpg")
-                comFunc.uploadImage(footBmp,"foot$customerId")
+                val footBmp = photoFilesFunc.loadImageFromInternalStorage(requireContext(), "$username$customerId.jpg")
+                comFunc.uploadImage(footBmp,"$username$customerId")
 
                 findNavController().navigate(R.id.action_addCustomerFragment_to_customersFragment)
             }
@@ -232,12 +239,12 @@ class AddCustomerFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
+        val username = SharedPreferenceFunctions().getUsername(requireContext()).toString()
 
         val myImage = binding.footIV
 
-        if (photoFilesFunc.existImageInInternalStorage(requireContext(), "foot$customerId.jpg")) {
-            val footBmp = photoFilesFunc.loadImageFromInternalStorage(requireContext(), "foot$customerId.jpg")
+        if (photoFilesFunc.existImageInInternalStorage(requireContext(), "$username$customerId.jpg")) {
+            val footBmp = photoFilesFunc.loadImageFromInternalStorage(requireContext(), "$username$customerId.jpg")
             myImage.setImageBitmap(footBmp)
         }
         else{

@@ -58,8 +58,8 @@ class PhotoFilesFunctions {
         // Initializing a new file
         // The bellow line return a directory in internal storage
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
-
-        val imageName = "foot$imageId.jpg"
+        val username = SharedPreferenceFunctions().getUsername(context).toString()
+        val imageName = "$username$imageId.jpg"
         // Create a file to save the image
         file = File(file, imageName)
 
