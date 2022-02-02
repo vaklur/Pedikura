@@ -7,16 +7,27 @@
     android:orientation="vertical"
     tools:context=".SettingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment" />
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:text="@string/settings_title" />
 
     <Button
         android:id="@+id/upload_test_BTN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test" />
+        android:text="@string/setting_download_data" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_error"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/purple_200"/>
 </LinearLayout>

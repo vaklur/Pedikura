@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
-import androidx.core.net.toUri
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -28,10 +27,13 @@ class PhotoFilesFunctions {
     }
 
      fun existImageInInternalStorage(context: Context, imageName: String):Boolean{
+         if (imageName==""){
+             return false
+         }
         val wrapper = ContextWrapper(context)
-        Log.i("test", imageName)
         val file = wrapper.getDir("images", Context.MODE_PRIVATE)
         val imgFile = File(file, imageName)
+         Log.d("test", imgFile.exists().toString())
         return imgFile.exists()
     }
 

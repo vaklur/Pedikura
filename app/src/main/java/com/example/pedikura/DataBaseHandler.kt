@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
 import com.example.pedikura.customers.Customer
+import com.example.pedikura.logs.Logs
 
 const val TABLENAME = "Customers"
 const val COL_ID = "id"
@@ -29,6 +30,11 @@ const val TABLENAME1 = "BackUp"
 const val COL_ID1 = "ido"
 const val COL_OPERATION= "operation"
 
+const val TABLENAME2 = "Logs"
+const val COL_TIME = "Time"
+const val COL_LOG= "log"
+const val COL_SEVERITY="severity"
+
 const val SQLITE_SEQUENCE = "SQLITE_SEQUENCE"
 const val COL_NAME = "name"
 const val COL_SEQUENCE = "seq"
@@ -46,6 +52,10 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
         val createTable1 =
                 "CREATE TABLE " + TABLENAME1 + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COL_ID1 + " TEXT," + COL_OPERATION + " TEXT)"
         db?.execSQL(createTable1)
+
+        val createTable2 =
+            "CREATE TABLE " + TABLENAME2 + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COL_TIME + " TEXT,"+ COL_LOG + " TEXT,"+ COL_SEVERITY +" TEXT)"
+        db?.execSQL(createTable2)
 
     }
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -109,6 +119,15 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
         }
     }
 
+    fun insertData(log:Logs) {
+        val database = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(COL_TIME,log.time)
+        contentValues.put(COL_LOG,log.logText)
+        contentValues.put(COL_SEVERITY,log.severity)
+        database.insert(TABLENAME2, null, contentValues)
+    }
+
 
     @SuppressLint("Range")
     fun readDataOperation(): MutableList<Operation> {
@@ -125,6 +144,26 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
                 list.add(operation)
             }
             while (result.moveToNext())
+        }
+        return list
+    }
+
+    @SuppressLint("Range")
+    fun readLogs(): MutableList<Logs> {
+        val list: MutableList<Logs> = ArrayList()
+        val db = this.readableDatabase
+        val query = "Select * from $TABLENAME2"
+        val result = db.rawQuery(query, null)
+        if (result.moveToLast()) {
+            do {
+                val log = Logs(
+                        result.getString(result.getColumnIndex(COL_TIME)),
+                        result.getString(result.getColumnIndex(COL_LOG)),
+                        result.getString(result.getColumnIndex(COL_SEVERITY)),
+                )
+                list.add(log)
+            }
+            while (result.moveToPrevious())
         }
         return list
     }

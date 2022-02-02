@@ -1,4 +1,4 @@
-package com.example.pedikura.functions;
+package com.example.pedikura.functions
 
 import android.content.Context
 import android.content.SharedPreferences

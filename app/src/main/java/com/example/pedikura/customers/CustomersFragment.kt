@@ -1,5 +1,6 @@
 package com.example.pedikura.customers
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -59,12 +60,14 @@ class CustomersFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val db = DataBaseHandler(requireContext(),SharedPreferenceFunctions().getUsername(requireContext()).toString())
         customers = db.loadCustomers()
 
-        binding.usernameTV.text = SharedPreferenceFunctions().getUsername(requireContext())
+        val username = SharedPreferenceFunctions().getUsername(requireContext())
+        binding.usernameTV.text = "Přihlášen jako $username"
 
         recyclerView = binding.recyclerView
         attachAdapter(customers)

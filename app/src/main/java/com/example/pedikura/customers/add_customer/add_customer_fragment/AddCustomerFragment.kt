@@ -1,5 +1,6 @@
 package com.example.pedikura.customers.add_customer.add_customer_fragment
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
@@ -71,6 +72,7 @@ class AddCustomerFragment : Fragment() {
 
 
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val db = DataBaseHandler(requireContext(), SharedPreferenceFunctions().getUsername(requireContext()).toString())
@@ -123,11 +125,15 @@ class AddCustomerFragment : Fragment() {
 
             }
             else -> {
-                customerId = customerList[customerList.lastIndex].id+1
+                customerId = if (db.getSequenceOfCustomers().toInt()>customerList[customerList.lastIndex].id+1){
+                    db.getSequenceOfCustomers().toInt()+1
+                } else{
+                    customerList[customerList.lastIndex].id+1
+                }
             }
         }
 
-        binding.clientCardTV.text = customerId.toString()
+        binding.clientCardTV.text = resources.getString(R.string.client_card)+"s ID: "+customerId.toString()
 
         // Set foot image
         val myImage = binding.footIV
@@ -229,7 +235,7 @@ class AddCustomerFragment : Fragment() {
                     comFunc.addCustomerToServer(customer,requireContext())
                 }
                 val footBmp = photoFilesFunc.loadImageFromInternalStorage(requireContext(), "$username$customerId.jpg")
-                comFunc.uploadImage(footBmp,"$username$customerId")
+                comFunc.uploadImage(footBmp,"$username$customerId",requireContext())
 
                 findNavController().navigate(R.id.action_addCustomerFragment_to_customersFragment)
             }

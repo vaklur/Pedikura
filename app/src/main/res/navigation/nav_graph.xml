@@ -71,4 +71,10 @@
             android:id="@+id/action_signUp_to_logIn"
             app:destination="@id/logInFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/logFragment"
+        android:name="com.example.pedikura.logs.LogFragment"
+        android:label="fragment_log"
+        tools:layout="@layout/fragment_log" />
+    <action android:id="@+id/action_global_logFragment" app:destination="@id/logFragment" />
 </navigation>

@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">Pedikura</string>
     <string name="action_settings">Nastavení</string>
+    <string name="action_log">Logy</string>
+    <string name="refresh">Obnovit</string>
     <string name="action_logout">Odhlásit se</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="settings_title">Nastavení</string>
+    <string name="setting_download_data">Nahrát údaje ze serveru</string>
+    <string name="settings_error">Tato funkce je zatím nefunkční!</string>
 
 
     // new strings

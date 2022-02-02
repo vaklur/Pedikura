@@ -1,9 +1,12 @@
 package com.example.pedikura.customers
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.pedikura.DataBaseHandler
@@ -31,6 +34,7 @@ class CustomerDetailFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val db = DataBaseHandler(requireContext(),SharedPreferenceFunctions().getUsername(requireContext()).toString())
@@ -57,8 +61,7 @@ class CustomerDetailFragment : Fragment() {
         else if (customer.treatment_other != ""){
             treatmentString =customer.treatment_other
         }
-
-        binding.clientCardTV.text = customer.id.toString()
+        binding.clientCardTV.text = resources.getString(R.string.client_card)+" s ID: "+customer.id.toString()
        binding.lname1TV.text =  customer.lname
        binding.fname1TV.text = customer.fname
        binding.age1TV.text = customer.age

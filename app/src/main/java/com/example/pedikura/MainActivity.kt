@@ -1,13 +1,10 @@
 package com.example.pedikura
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.example.pedikura.databinding.ActivityMainBinding
 import com.example.pedikura.functions.SharedPreferenceFunctions
 
@@ -49,6 +46,8 @@ class MainActivity : AppCompatActivity() {
             // Go to settings
             R.id.action_settings -> {Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.action_global_settingsFragment)
             return true}
+            R.id.action_log -> {Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.action_global_logFragment)
+                return true}
             R.id.action_logout ->{Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.logInFragment)
                 SharedPreferenceFunctions().saveSP("",false,this)
                 return true
