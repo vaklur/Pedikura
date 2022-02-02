@@ -6,6 +6,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
+import com.example.pedikura.backup.Operation
 import com.example.pedikura.customers.Customer
 import com.example.pedikura.logs.Logs
 
@@ -251,6 +252,31 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
         else {
             Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun deleteAll():Boolean{
+        var success = true
+        val database = this.writableDatabase
+        val result = database.delete(TABLENAME, null, null)
+        if (result == -1) {
+            success = false
+        }
+        val database1 = this.writableDatabase
+        val result1 = database1.delete(TABLENAME1, null, null)
+        if (result1 == -1) {
+            success = false
+        }
+        val database2 = this.writableDatabase
+        val result2 = database2.delete(TABLENAME2, null, null)
+        if (result2 == -1) {
+            success = false
+        }
+        val database3 = this.writableDatabase
+        val result3 = database3.delete(SQLITE_SEQUENCE,null,null)
+        if (result3 == (-1)) {
+            success = false
+        }
+        return success
     }
 
     fun updateCustomer (customer: Customer){

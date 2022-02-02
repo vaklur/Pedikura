@@ -14,8 +14,9 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.example.pedikura.Cryptography
 import com.example.pedikura.DataBaseHandler
-import com.example.pedikura.Operation
+import com.example.pedikura.backup.Operation
 import com.example.pedikura.R
+import com.example.pedikura.backup.BackupDialog
 import com.example.pedikura.customers.Customer
 import com.example.pedikura.functions.PhotoFilesFunctions
 import com.example.pedikura.functions.SharedPreferenceFunctions
@@ -388,35 +389,43 @@ class CommunicationFunction(context: Context) {
         return df.format(Calendar.getInstance().time)
     }
 
-    fun getCustomersTableFromServer(username:String,password:String, context: Context) {
+    fun getCustomersTableFromServer(username:String,password:String, context: Context,backupDialog: BackupDialog) {
         val db = DataBaseHandler(context,SharedPreferenceFunctions().getUsername(context).toString())
         val stringRequest = object : StringRequest(
                 Method.POST, getServerAddress("getdata"),
                 Response.Listener { response ->
                     try {
-                        val array = JSONArray(response)
-                        for (i in 0 until array.length()){
-                            val customerJSON = array.getJSONObject(i)
-                            val customer = Customer(
-                                    customerJSON.getString("id").toInt(),
-                                    customerJSON.getString("lname"),
-                                    customerJSON.getString("fname"),
-                                    customerJSON.getString("age"),
-                                    customerJSON.getString("profession"),
-                                    customerJSON.getString("contact"),
-                                    customerJSON.getString("address"),
-                                    customerJSON.getString("problems"),
-                                    customerJSON.getString("problemsOther"),
-                                    customerJSON.getString("treatment"),
-                                    customerJSON.getString("treatmentOther"),
-                                    customerJSON.getString("notes"),
-                                    customerJSON.getString("footImage"),
-                                    customerJSON.getString("recommendation"),
-                                    ""
+                        when (response.trim()) {
+                            "Username or Password wrong" -> {
+                                Toast.makeText(context, "Přezdívka nebo heslo je nesprávné", Toast.LENGTH_LONG).show()
+                            }
+                            else -> {
+                                val array = JSONArray(response)
+                                for (i in 0 until array.length()) {
+                                    val customerJSON = array.getJSONObject(i)
+                                    val customer = Customer(
+                                            customerJSON.getString("id").toInt(),
+                                            customerJSON.getString("lname"),
+                                            customerJSON.getString("fname"),
+                                            customerJSON.getString("age"),
+                                            customerJSON.getString("profession"),
+                                            customerJSON.getString("contact"),
+                                            customerJSON.getString("address"),
+                                            customerJSON.getString("problems"),
+                                            customerJSON.getString("problemsOther"),
+                                            customerJSON.getString("treatment"),
+                                            customerJSON.getString("treatmentOther"),
+                                            customerJSON.getString("notes"),
+                                            customerJSON.getString("footImage"),
+                                            customerJSON.getString("recommendation"),
+                                            ""
 
-                            )
-                            db.insertData(customer)
-                            Log.d("test",customerJSON.getString("lname"))
+                                    )
+                                    db.insertData(customer)
+                                    getCustomersPhotoFromServer(username, password, customer.foot_image, customer.id, context)
+                                    backupDialog.dismiss()
+                                }
+                            }
                         }
 
 
@@ -436,14 +445,15 @@ class CommunicationFunction(context: Context) {
         VolleySingleton.instance?.addToRequestQueue(stringRequest)
     }
 
-    fun getCustomersPhotoFromServer(username:String,password:String, context: Context) {
+    fun getCustomersPhotoFromServer(username:String,password:String,photoName: String,id:Int, context: Context) {
         val photoFunc = PhotoFilesFunctions()
         val stringRequest = object : StringRequest(
                 Method.POST, getServerAddress("downloadphoto"),
                 Response.Listener {response ->
                     try {
                         val image =stringToImage(response)
-                        photoFunc.saveImageToInternalStorage(image,context,125)
+                        photoFunc.saveImageToInternalStorage(image,context,id)
+                        Log.d("test",photoName)
                     } catch (e: JSONException) {
                         e.printStackTrace()
 
@@ -453,9 +463,9 @@ class CommunicationFunction(context: Context) {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
-                params["username"] = "vaklur"
-                params["password"] = "kubicek"
-                params["photoname"] = "Lenna(testImage)"
+                params["username"] = username
+                params["password"] = password
+                params["photoname"] = photoName
                 return params
             }
         }

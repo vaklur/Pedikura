@@ -10,6 +10,9 @@
     <string name="setting_download_data">Nahrát údaje ze serveru</string>
     <string name="settings_error">Tato funkce je zatím nefunkční!</string>
 
+    <string name="backup_title">Přihlášení pro nahrání zálohy</string>
+    <string name="backup_button">Nahrát zálohu</string>
+
 
     // new strings
 
