@@ -400,6 +400,7 @@ class CommunicationFunction(context: Context) {
                                 Toast.makeText(context, "Přezdívka nebo heslo je nesprávné", Toast.LENGTH_LONG).show()
                             }
                             else -> {
+                                db.deleteAll()
                                 val array = JSONArray(response)
                                 for (i in 0 until array.length()) {
                                     val customerJSON = array.getJSONObject(i)

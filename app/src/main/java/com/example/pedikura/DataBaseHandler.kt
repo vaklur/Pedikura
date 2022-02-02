@@ -175,7 +175,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
         val db = this.readableDatabase
         val query = "Select * from $TABLENAME"
         val result = db.rawQuery(query, null)
-        if (result.moveToFirst()) {
+        if (result.moveToLast()) {
             do {
                 val customer = Customer(
                         result.getInt(result.getColumnIndex(COL_ID)),
@@ -196,7 +196,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
                 )
                 list.add(customer)
             }
-            while (result.moveToNext())
+            while (result.moveToPrevious())
         }
         return list
     }
@@ -204,7 +204,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
     @SuppressLint("Range")
     fun searchCustomer(id:Int): Customer {
         val db = this.readableDatabase
-        val query = "Select * from $TABLENAME where id like '%$id%'"
+        val query = "Select * from $TABLENAME where id = '$id'"
         val result = db.rawQuery(query,null)
         val customer = Customer()
 

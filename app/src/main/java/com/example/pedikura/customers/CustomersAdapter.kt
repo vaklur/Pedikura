@@ -2,6 +2,7 @@ package com.example.pedikura.customers
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +44,7 @@ class CustomersAdapter(
                 val id = customers[position].id
                 val bundle = Bundle()
                 bundle.putInt("id", id)
+                Log.d("test",id.toString())
                 holder.customerCardBTN.findNavController().navigate(R.id.action_customersFragment_to_customerDetailFragment,bundle)
 
                 //Navigation.createNavigateOnClickListener(R.id.action_customersFragment_to_customerDetailFragment).onClick(holder.customerCardBTN)

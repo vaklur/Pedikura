@@ -45,11 +45,8 @@ class BackupDialog: DialogFragment() {
     }
 
     private fun downloadBackUp(username:String,password:String){
-        val db = DataBaseHandler(requireContext(), SharedPreferenceFunctions().getUsername(requireContext()).toString())
-        val test = db.deleteAll()
 
         val comFunc = CommunicationFunction(requireContext())
         comFunc.getCustomersTableFromServer(username,password,requireContext(),this)
-        Log.d("test",test.toString())
     }
 }

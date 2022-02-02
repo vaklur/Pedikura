@@ -39,7 +39,7 @@ class CustomerDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val db = DataBaseHandler(requireContext(),SharedPreferenceFunctions().getUsername(requireContext()).toString())
         val position = requireArguments().getInt("id")
-
+        Log.d("test",position.toString())
         val customer = db.searchCustomer(position)
         val id = customer.id
 
