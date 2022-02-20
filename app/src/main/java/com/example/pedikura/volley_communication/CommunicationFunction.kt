@@ -138,10 +138,11 @@ class CommunicationFunction(context: Context) {
         val db = DataBaseHandler(context,SharedPreferenceFunctions().getUsername(context).toString())
             val stringRequest = object : StringRequest(
                     Method.POST, getServerAddress("addcustomer"),
-                    Response.Listener {
+                    Response.Listener {response ->
                         try {
                             val log = Logs(getCurrentTime(),"Zákazník s ID: "+customer.id+" byl přidán do databáze na serveru.","green")
                             db.insertData(log)
+                            Log.d("test",response)
 
                         } catch (e: JSONException) {
                             e.printStackTrace()
@@ -166,6 +167,7 @@ class CommunicationFunction(context: Context) {
                     params["profession"] = crypto.encryptData(customer.profession,context)
                     params["contact"] = crypto.encryptData(customer.contact,context)
                     params["address"] = crypto.encryptData(customer.address,context)
+                    params["lastVisit"] = crypto.encryptData(customer.last_visit,context)
                     params["problems"] = crypto.encryptData(customer.problems,context)
                     params["problemsOther"] = crypto.encryptData(customer.problems_other,context)
                     params["treatment"] = crypto.encryptData(customer.treatment,context)
@@ -211,6 +213,7 @@ class CommunicationFunction(context: Context) {
                 params["profession"] = crypto.encryptData(customer.profession,context)
                 params["contact"] = crypto.encryptData(customer.contact,context)
                 params["address"] = crypto.encryptData(customer.address,context)
+                params["lastVisit"] = crypto.encryptData(customer.last_visit,context)
                 params["problems"] = crypto.encryptData(customer.problems,context)
                 params["problemsOther"] = crypto.encryptData(customer.problems_other,context)
                 params["treatment"] = crypto.encryptData(customer.treatment,context)
@@ -231,10 +234,11 @@ class CommunicationFunction(context: Context) {
         val db = DataBaseHandler(context,SharedPreferenceFunctions().getUsername(context).toString())
         val stringRequest = object : StringRequest(
                 Method.POST, getServerAddress("deletecustomer"),
-                Response.Listener {
+                Response.Listener {response ->
                     try {
                         val log = Logs(getCurrentTime(), "Zákazník s ID: $customerId byl smazán z databáze na serveru.","green")
                         db.insertData(log)
+                        Log.d("test",response)
                     } catch (e: JSONException) {
                         e.printStackTrace()
                         val log = Logs(getCurrentTime(), "Při smazání zákazníka s ID: $customerId nastala chyba serveru","red")
@@ -401,6 +405,7 @@ class CommunicationFunction(context: Context) {
                             }
                             else -> {
                                 db.deleteAll()
+                                Log.d("test",response)
                                 val array = JSONArray(response)
                                 for (i in 0 until array.length()) {
                                     val customerJSON = array.getJSONObject(i)
@@ -412,6 +417,7 @@ class CommunicationFunction(context: Context) {
                                             customerJSON.getString("profession"),
                                             customerJSON.getString("contact"),
                                             customerJSON.getString("address"),
+                                            customerJSON.getString("lastVisit"),
                                             customerJSON.getString("problems"),
                                             customerJSON.getString("problemsOther"),
                                             customerJSON.getString("treatment"),

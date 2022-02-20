@@ -158,6 +158,20 @@
             android:textSize="30sp" />
     </LinearLayout>
 
+            <TextView
+                android:id="@+id/last_visit_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/last_visit"
+                android:textStyle="bold"
+                android:textSize="30sp"/>
+            <TextView
+                android:id="@+id/last_visit1_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/last_visit"
+                android:textSize="30sp" />
+
         <TextView
             android:id="@+id/problems_TV"
             android:layout_width="match_parent"

@@ -100,6 +100,7 @@ class AddCustomerFragment : Fragment() {
                 binding.professionEV.setText(customer.profession)
                 binding.contactEV.setText(customer.contact)
                 binding.addressEV.setText(customer.address)
+                binding.lastVisitEV.setText(customer.last_visit)
 
                 binding.problemsOtherET.setText(customer.problems_other)
                 binding.treatmentOthersET.setText(customer.treatment_other)
@@ -165,6 +166,7 @@ class AddCustomerFragment : Fragment() {
             val profession = binding.professionEV.text.toString()
             val contact = binding.contactEV.text.toString()
             val address = binding.addressEV.text.toString()
+            val lastVisit = binding.lastVisitEV.text.toString()
 
             val problems = addCustomerFunc.getCheckedProblems(view, resources)
             val problemsOther = binding.problemsOtherET.text.toString()
@@ -214,6 +216,7 @@ class AddCustomerFragment : Fragment() {
                     profession,
                     contact,
                     address,
+                        lastVisit,
                     problems,
                     problemsOther,
                     treatment,

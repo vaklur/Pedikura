@@ -68,6 +68,7 @@ class CustomerDetailFragment : Fragment() {
        binding.profession1TV.text = customer.profession
        binding.contact1TV.text = customer.contact
        binding.address1TV.text = customer.address
+        binding.lastVisit1TV.text = customer.last_visit
        binding.problems1TV.text = problemsString
        binding.treatment1TV.text = treatmentString
        binding.notes1TV.text = customer.notes

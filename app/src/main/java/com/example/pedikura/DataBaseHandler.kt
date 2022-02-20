@@ -18,6 +18,7 @@ const val COL_AGE = "age"
 const val COL_PROFESSION = "profession"
 const val COL_CONTACT = "contact"
 const val COL_ADDRESS = "address"
+const val COL_LAST_VISIT = "last_visit"
 const val COL_PROBLEMS = "problems"
 const val COL_PROBLEMS_OTHER = "problemsnext"
 const val COL_TREATMENT = "treatment"
@@ -46,7 +47,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
         1) {
     override fun onCreate(db: SQLiteDatabase?) {
         val createTable =
-        "CREATE TABLE " + TABLENAME + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COL_LNAME + " TEXT," + COL_FNAME + " TEXT,"+ COL_AGE + " TEXT,"+ COL_PROFESSION + " TEXT,"+ COL_CONTACT+ " TEXT,"+ COL_ADDRESS + " TEXT,"+ COL_PROBLEMS + " TEXT,"+ COL_PROBLEMS_OTHER + " TEXT,"+ COL_TREATMENT + " TEXT,"+ COL_TREATMENT_NEXT + " TEXT,"+ COL_NOTES + " TEXT,"+ COL_FOOT_IMAGE + " TEXT,"+ COL_RECOMMENDATION + " TEXT,"+ COL_PHOTOS + " TEXT)"
+        "CREATE TABLE " + TABLENAME + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COL_LNAME + " TEXT," + COL_FNAME + " TEXT,"+ COL_AGE + " TEXT,"+ COL_PROFESSION + " TEXT,"+ COL_CONTACT+ " TEXT,"+ COL_ADDRESS + " TEXT,"+ COL_LAST_VISIT + " TEXT,"+ COL_PROBLEMS + " TEXT,"+ COL_PROBLEMS_OTHER + " TEXT,"+ COL_TREATMENT + " TEXT,"+ COL_TREATMENT_NEXT + " TEXT,"+ COL_NOTES + " TEXT,"+ COL_FOOT_IMAGE + " TEXT,"+ COL_RECOMMENDATION + " TEXT,"+ COL_PHOTOS + " TEXT)"
 
             db?.execSQL(createTable)
 
@@ -83,12 +84,14 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
     fun insertData(customer: Customer) {
         val database = this.writableDatabase
         val contentValues = ContentValues()
+        if (customer.id>0) contentValues.put(COL_ID,customer.id)
         contentValues.put(COL_LNAME, customer.lname)
         contentValues.put(COL_FNAME, customer.fname)
         contentValues.put(COL_AGE, customer.age)
         contentValues.put(COL_PROFESSION, customer.profession)
         contentValues.put(COL_CONTACT, customer.contact)
         contentValues.put(COL_ADDRESS, customer.address)
+        contentValues.put(COL_LAST_VISIT,customer.last_visit)
         contentValues.put(COL_PROBLEMS, customer.problems)
         contentValues.put(COL_PROBLEMS_OTHER, customer.problems_other)
         contentValues.put(COL_TREATMENT, customer.treatment)
@@ -185,6 +188,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
                         result.getString(result.getColumnIndex(COL_PROFESSION)),
                         result.getString(result.getColumnIndex(COL_CONTACT)),
                         result.getString(result.getColumnIndex(COL_ADDRESS)),
+                        result.getString(result.getColumnIndex(COL_LAST_VISIT)),
                         result.getString(result.getColumnIndex(COL_PROBLEMS)),
                         result.getString(result.getColumnIndex(COL_PROBLEMS_OTHER)),
                         result.getString(result.getColumnIndex(COL_TREATMENT)),
@@ -217,6 +221,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
                 customer.profession = result.getString(result.getColumnIndex(COL_PROFESSION))
                 customer.contact = result.getString(result.getColumnIndex(COL_CONTACT))
                 customer.address = result.getString(result.getColumnIndex(COL_ADDRESS))
+                customer.last_visit = result.getString(result.getColumnIndex(COL_LAST_VISIT))
                 customer.problems = result.getString(result.getColumnIndex(COL_PROBLEMS))
                 customer.problems_other = result.getString(result.getColumnIndex(COL_PROBLEMS_OTHER))
                 customer.treatment = result.getString(result.getColumnIndex(COL_TREATMENT))
@@ -288,6 +293,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
         contentValues.put(COL_PROFESSION, customer.profession)
         contentValues.put(COL_CONTACT, customer.contact)
         contentValues.put(COL_ADDRESS, customer.address)
+        contentValues.put(COL_LAST_VISIT, customer.last_visit)
         contentValues.put(COL_PROBLEMS, customer.problems)
         contentValues.put(COL_PROBLEMS_OTHER, customer.problems_other)
         contentValues.put(COL_TREATMENT, customer.treatment)
@@ -313,7 +319,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
         val data = db.readData()
         val customersList = ArrayList<Customer>()
          for (i in 0 until data.size) {
-            customersList.add(Customer(data[i].id,data[i].lname,data[i].fname,data[i].age,data[i].profession,data[i].contact,data[i].address,data[i].problems,data[i].problems_other,data[i].treatment,data[i].treatment_other,data[i].notes,data[i].foot_image,data[i].recommendation,data[i].photos))
+            customersList.add(Customer(data[i].id,data[i].lname,data[i].fname,data[i].age,data[i].profession,data[i].contact,data[i].address,data[i].last_visit,data[i].problems,data[i].problems_other,data[i].treatment,data[i].treatment_other,data[i].notes,data[i].foot_image,data[i].recommendation,data[i].photos))
         }
         return customersList
     }

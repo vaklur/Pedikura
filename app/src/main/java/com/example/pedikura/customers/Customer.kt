@@ -8,6 +8,7 @@ data class Customer(
     var profession:String,
     var contact:String,
     var address:String,
+    var last_visit:String,
     var problems:String,
     var problems_other:String,
     var treatment:String,
@@ -17,5 +18,5 @@ data class Customer(
     var recommendation:String,
     var photos:String)
 {
-    constructor():this(0 ,"","","","","","","","","","","","","","")
+    constructor():this(0 ,"","","","","","","","","","","","","","","")
 }

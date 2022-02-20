@@ -44,10 +44,17 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             // Go to settings
-            R.id.action_settings -> {Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.action_global_settingsFragment)
+            R.id.action_settings -> {
+                if(SharedPreferenceFunctions().getLoggedIn(this)) {
+                    Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_global_settingsFragment)
+                }
             return true}
-            R.id.action_log -> {Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.action_global_logFragment)
-                return true}
+            R.id.action_log -> {
+                if(SharedPreferenceFunctions().getLoggedIn(this)) {
+                    Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_global_logFragment)
+                }
+                    return true}
+
             R.id.action_logout ->{Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.logInFragment)
                 SharedPreferenceFunctions().saveSP("",false,this)
                 return true

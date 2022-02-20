@@ -71,9 +71,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="numberDecimal"
                 android:hint="@string/age"
-                />
+                android:inputType="date" />
             <TextView
                 android:id="@+id/profession_TV"
                 android:layout_width="match_parent"
@@ -122,6 +121,22 @@
                 android:inputType="textCapSentences"
                 android:hint="@string/address"
                  />
+            <TextView
+                android:id="@+id/last_visit_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="@string/last_visit" />
+
+            <EditText
+                android:id="@+id/last_visit_EV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="date|numberDecimal"
+                android:hint="@string/last_visit"
+                />
             <TextView
                 android:id="@+id/problems_TV"
                 android:layout_width="match_parent"
@@ -251,7 +266,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textCapSentences"
+                android:inputType="textMultiLine"
                 android:visibility="gone"
                 android:hint="@string/problems_others"/>
 
@@ -333,7 +348,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textCapSentences"
+                android:inputType="textMultiLine"
                 android:visibility="gone"
                 android:hint="@string/treatment_others"/>
 
@@ -351,7 +366,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/recommendation"
-                android:inputType="textCapSentences" />
+                android:inputType="textMultiLine" />
 
             <ImageView
                 android:id="@+id/foot_IV"
@@ -375,7 +390,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textCapSentences"
+                android:inputType="textMultiLine"
                 android:hint="@string/notes" />
             <Button
                 android:id="@+id/edit_photos_BTN"
