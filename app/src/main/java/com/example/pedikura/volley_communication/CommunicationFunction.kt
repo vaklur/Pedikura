@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.util.Base64
 import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.navigation.findNavController
 import com.android.volley.AuthFailureError
@@ -430,8 +431,9 @@ class CommunicationFunction(context: Context) {
                                     )
                                     db.insertData(customer)
                                     getCustomersPhotoFromServer(username, password, customer.foot_image, customer.id, context)
-                                    backupDialog.dismiss()
+
                                 }
+                                backupDialog.dismiss()
                             }
                         }
 

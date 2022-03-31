@@ -79,6 +79,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
             }
             while (result.moveToNext())
         }
+        result.close()
         return sequence
     }
     fun insertData(customer: Customer) {
@@ -107,6 +108,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
         else {
             Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
         }
+
     }
 
     fun insertData(operation: Operation) {
@@ -149,6 +151,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
             }
             while (result.moveToNext())
         }
+        result.close()
         return list
     }
 
@@ -169,6 +172,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
             }
             while (result.moveToPrevious())
         }
+        result.close()
         return list
     }
 
@@ -202,6 +206,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
             }
             while (result.moveToPrevious())
         }
+        result.close()
         return list
     }
 
@@ -234,6 +239,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
             }
             while (result.moveToNext())
         }
+        result.close()
         return customer
     }
 
