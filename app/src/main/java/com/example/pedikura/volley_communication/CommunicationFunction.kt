@@ -34,7 +34,7 @@ import kotlin.collections.HashMap
  */
 
 //const val urlRoot = "http://192.168.56.1/pedicure"
-const val urlRoot = "http://unsecureapp.tode.cz/pedicure"
+const val urlRoot = "https://vaklur.cz/pedicure"
 class CommunicationFunction(context: Context) {
 
     val actualUsername = SharedPreferenceFunctions().getUsername(context)

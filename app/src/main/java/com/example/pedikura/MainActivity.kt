@@ -5,14 +5,12 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
+import com.example.pedikura.customers.CustomerViewModel
 import com.example.pedikura.databinding.ActivityMainBinding
 import com.example.pedikura.functions.SharedPreferenceFunctions
 
 
 class MainActivity : AppCompatActivity() {
-
-
-
 
     private lateinit var binding: ActivityMainBinding
 
@@ -24,8 +22,10 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        if (SharedPreferenceFunctions().getLoggedIn(this)){
-            Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.customersFragment)
+        if (savedInstanceState==null){
+            if (SharedPreferenceFunctions().getLoggedIn(this)){
+                Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.customersFragment)
+            }
         }
 
 

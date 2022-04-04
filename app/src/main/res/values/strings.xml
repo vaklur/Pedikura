@@ -25,6 +25,7 @@
 
 
     <string name="client_card">Karta klienta</string>
+    <string name="client_card_with_ID">Karta klienta s ID: %s</string>
     <string name="edit_customer">Upravit</string>a
     <string name="delete_customer">Smazat</string>
 

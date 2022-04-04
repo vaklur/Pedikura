@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.pedikura.DataBaseHandler
 import com.example.pedikura.R
@@ -25,12 +26,15 @@ class CustomerDetailFragment : Fragment() {
 
     private val photoFilesFunc: PhotoFilesFunctions = PhotoFilesFunctions()
 
+    private lateinit var customerVM:CustomerViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCustomerDetailBinding.inflate(inflater,container,false)
+        customerVM = ViewModelProvider(this).get(CustomerViewModel::class.java)
         return binding.root
     }
 
@@ -41,39 +45,10 @@ class CustomerDetailFragment : Fragment() {
         val position = requireArguments().getInt("id")
         Log.d("test",position.toString())
         val customer = db.searchCustomer(position)
-        val id = customer.id
+        customerVM.setCustomer(customer)
+        binding.customerVM = customerVM
 
         val splitters = Splitters()
-
-        var problemsString = splitters.splitStringDots(customer.problems)
-        problemsString = problemsString.replace(",Jiné","")
-        if ((customer.problems_other != "") && (customer.problems.isNotEmpty())){
-            problemsString += ","+customer.problems_other
-        }
-        else if (customer.problems_other != ""){
-            problemsString =customer.problems_other
-        }
-        var treatmentString = splitters.splitStringDots(customer.treatment)
-        treatmentString = treatmentString.replace(",Jiné","")
-        if ((customer.treatment_other != "") && (customer.treatment.isNotEmpty())){
-            treatmentString += ","+customer.treatment_other
-        }
-        else if (customer.treatment_other != ""){
-            treatmentString =customer.treatment_other
-        }
-        binding.clientCardTV.text = resources.getString(R.string.client_card)+" s ID: "+customer.id.toString()
-       binding.lname1TV.text =  customer.lname
-       binding.fname1TV.text = customer.fname
-       binding.age1TV.text = customer.age
-       binding.profession1TV.text = customer.profession
-       binding.contact1TV.text = customer.contact
-       binding.address1TV.text = customer.address
-        binding.lastVisit1TV.text = customer.last_visit
-       binding.problems1TV.text = problemsString
-       binding.treatment1TV.text = treatmentString
-       binding.notes1TV.text = customer.notes
-       binding.recommendationTV1.text = customer.recommendation
-
 
         val myImage = binding.footIV
         if (photoFilesFunc.existImageInInternalStorage(requireContext(),customer.foot_image)) {
@@ -109,12 +84,12 @@ class CustomerDetailFragment : Fragment() {
 
         // Delete customer
         binding.deleteCustomerBTN.setOnClickListener {
-            showWarningDialog(id,customer.lname+" "+customer.fname,customer.foot_image,photosList)
+            showWarningDialog(customerVM.getCustomer().id,customer.lname+" "+customer.fname,customer.foot_image,photosList)
         }
 
         binding.editCustomerBTN.setOnClickListener {
             val bundle = Bundle()
-            bundle.putInt("id", id)
+            bundle.putInt("id", customerVM.getCustomer().id)
             findNavController().navigate(R.id.action_customerDetailFragment_to_addCustomerFragment2,bundle)
         }
 
