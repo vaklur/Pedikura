@@ -34,7 +34,7 @@ class CustomerDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCustomerDetailBinding.inflate(inflater,container,false)
-        customerVM = ViewModelProvider(this).get(CustomerViewModel::class.java)
+        customerVM = ViewModelProvider(requireActivity()).get(CustomerViewModel::class.java)
         return binding.root
     }
 
@@ -45,7 +45,9 @@ class CustomerDetailFragment : Fragment() {
         val position = requireArguments().getInt("id")
         Log.d("test",position.toString())
         val customer = db.searchCustomer(position)
-        customerVM.setCustomer(customer)
+
+        customerVM.setCustomer(db.searchCustomer(position),resources)
+        customerVM.setDisplayableCustomer(db.searchCustomer(position))
         binding.customerVM = customerVM
 
         val splitters = Splitters()
@@ -88,9 +90,7 @@ class CustomerDetailFragment : Fragment() {
         }
 
         binding.editCustomerBTN.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putInt("id", customerVM.getCustomer().id)
-            findNavController().navigate(R.id.action_customerDetailFragment_to_addCustomerFragment2,bundle)
+            findNavController().navigate(R.id.action_customerDetailFragment_to_addCustomerFragment2)
         }
 
     }
@@ -123,6 +123,7 @@ class CustomerDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+
 
     }
 

@@ -5,7 +5,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.widget.Toast
 import com.example.pedikura.backup.Operation
 import com.example.pedikura.customers.Customer
 import com.example.pedikura.logs.Logs
@@ -43,20 +42,20 @@ const val COL_SEQUENCE = "seq"
 
 
 
-class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenHelper(context, databsName, null,
+class DataBaseHandler(val context: Context, private val dbName:String) : SQLiteOpenHelper(context, dbName, null,
         1) {
     override fun onCreate(db: SQLiteDatabase?) {
         val createTable =
-        "CREATE TABLE " + TABLENAME + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COL_LNAME + " TEXT," + COL_FNAME + " TEXT,"+ COL_AGE + " TEXT,"+ COL_PROFESSION + " TEXT,"+ COL_CONTACT+ " TEXT,"+ COL_ADDRESS + " TEXT,"+ COL_LAST_VISIT + " TEXT,"+ COL_PROBLEMS + " TEXT,"+ COL_PROBLEMS_OTHER + " TEXT,"+ COL_TREATMENT + " TEXT,"+ COL_TREATMENT_NEXT + " TEXT,"+ COL_NOTES + " TEXT,"+ COL_FOOT_IMAGE + " TEXT,"+ COL_RECOMMENDATION + " TEXT,"+ COL_PHOTOS + " TEXT)"
+            "CREATE TABLE $TABLENAME ($COL_ID INTEGER PRIMARY KEY AUTOINCREMENT,$COL_LNAME TEXT,$COL_FNAME TEXT,$COL_AGE TEXT,$COL_PROFESSION TEXT,$COL_CONTACT TEXT,$COL_ADDRESS TEXT,$COL_LAST_VISIT TEXT,$COL_PROBLEMS TEXT,$COL_PROBLEMS_OTHER TEXT,$COL_TREATMENT TEXT,$COL_TREATMENT_NEXT TEXT,$COL_NOTES TEXT,$COL_FOOT_IMAGE TEXT,$COL_RECOMMENDATION TEXT,$COL_PHOTOS TEXT)"
 
             db?.execSQL(createTable)
 
         val createTable1 =
-                "CREATE TABLE " + TABLENAME1 + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COL_ID1 + " TEXT," + COL_OPERATION + " TEXT)"
+            "CREATE TABLE $TABLENAME1 ($COL_ID INTEGER PRIMARY KEY AUTOINCREMENT,$COL_ID1 TEXT,$COL_OPERATION TEXT)"
         db?.execSQL(createTable1)
 
         val createTable2 =
-            "CREATE TABLE " + TABLENAME2 + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COL_TIME + " TEXT,"+ COL_LOG + " TEXT,"+ COL_SEVERITY +" TEXT)"
+            "CREATE TABLE $TABLENAME2 ($COL_ID INTEGER PRIMARY KEY AUTOINCREMENT,$COL_TIME TEXT,$COL_LOG TEXT,$COL_SEVERITY TEXT)"
         db?.execSQL(createTable2)
 
     }
@@ -101,14 +100,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
         contentValues.put(COL_FOOT_IMAGE, customer.foot_image)
         contentValues.put(COL_RECOMMENDATION, customer.recommendation)
         contentValues.put(COL_PHOTOS,customer.photos)
-        val result = database.insert(TABLENAME, null, contentValues)
-        if (result == (0).toLong()) {
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
-        }
-        else {
-            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-        }
-
+        database.insert(TABLENAME, null, contentValues)
     }
 
     fun insertData(operation: Operation) {
@@ -116,13 +108,7 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
         val contentValues = ContentValues()
         contentValues.put(COL_ID1, operation.id)
         contentValues.put(COL_OPERATION,operation.operation)
-        val result = database.insert(TABLENAME1, null, contentValues)
-        if (result == (0).toLong()) {
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
-        }
-        else {
-            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-        }
+        database.insert(TABLENAME1, null, contentValues)
     }
 
     fun insertData(log:Logs) {
@@ -245,24 +231,12 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
 
     fun deleteCustomer(id:Int){
         val database = this.writableDatabase
-        val result = database.delete(TABLENAME, "$COL_ID=?", arrayOf(id.toString()))
-        if (result == -1) {
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
-        }
-        else {
-            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-        }
+        database.delete(TABLENAME, "$COL_ID=?", arrayOf(id.toString()))
     }
 
     fun deleteOperation(id:String){
         val database = this.writableDatabase
-        val result = database.delete(TABLENAME1, "$COL_ID1=?", arrayOf(id))
-        if (result == -1) {
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
-        }
-        else {
-            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-        }
+        database.delete(TABLENAME1, "$COL_ID1=?", arrayOf(id))
     }
 
     fun deleteAll():Boolean{
@@ -310,17 +284,11 @@ class DataBaseHandler(val context: Context, val databsName:String) : SQLiteOpenH
         contentValues.put(COL_PHOTOS, customer.photos)
         val whereclause = "$COL_ID=?"
         val whereargs = arrayOf(customer.id.toString())
-        val result = database.update(TABLENAME, contentValues,whereclause,whereargs)
-        if (result == (-1)) {
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
-        }
-        else {
-            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-        }
+        database.update(TABLENAME, contentValues,whereclause,whereargs)
     }
 
     fun loadCustomers():ArrayList<Customer>{
-        val db = DataBaseHandler(context,databsName)
+        val db = DataBaseHandler(context,dbName)
         //db.insertData(Customer(1,"s","s","s","s","s","s","s","s","s","s","s","s","s"))
         val data = db.readData()
         val customersList = ArrayList<Customer>()

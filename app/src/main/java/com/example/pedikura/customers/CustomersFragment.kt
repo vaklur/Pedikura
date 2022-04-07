@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +30,8 @@ import kotlin.math.ceil
 class CustomersFragment : Fragment() {
     private var _binding: FragmentCustomersBinding?=null
     private val binding get() = _binding!!
+
+    private lateinit var customerVM:CustomerViewModel
 
     private lateinit var recyclerView: RecyclerView
     private var customers = ArrayList<Customer>()
@@ -69,6 +72,8 @@ class CustomersFragment : Fragment() {
         val username = SharedPreferenceFunctions().getUsername(requireContext())
         binding.usernameTV.text = "Přihlášen jako $username"
 
+        customerVM = ViewModelProvider(requireActivity()).get(CustomerViewModel::class.java)
+
         recyclerView = binding.recyclerView
         attachAdapter(customers)
         toggleRecyclerView(customers)
@@ -79,7 +84,7 @@ class CustomersFragment : Fragment() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                val query = p0.toString().toLowerCase(Locale.getDefault())
+                val query = p0.toString().lowercase(Locale.getDefault())
                 filterWithQuery(query)
             }
 
@@ -119,7 +124,7 @@ class CustomersFragment : Fragment() {
         // Loop through each item in list
         for (currentCustomer in customers) {
             // Before checking string matching convert string to lower case.
-            if (currentCustomer.lname.toLowerCase(Locale.getDefault()).contains(filterQuery)) {
+            if (currentCustomer.lname.lowercase(Locale.getDefault()).contains(filterQuery)) {
                 // If the match is success, add item to list.
                 filteredList.add(currentCustomer)
             }

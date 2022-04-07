@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.pedikura.customers.CustomerViewModel
 import com.example.pedikura.databinding.ActivityMainBinding
@@ -13,6 +14,7 @@ import com.example.pedikura.functions.SharedPreferenceFunctions
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var customerVM:CustomerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         setSupportActionBar(binding.toolbar)
+
+        customerVM = ViewModelProvider(this).get(CustomerViewModel::class.java)
 
         if (savedInstanceState==null){
             if (SharedPreferenceFunctions().getLoggedIn(this)){
@@ -72,13 +76,13 @@ class MainActivity : AppCompatActivity() {
         if (navigationController.currentDestination?.id == R.id.logInFragment) {
             finish()
         }
+        if (navigationController.currentDestination?.id == R.id.customerDetailFragment){
+            customerVM.clearActualCustomer()
+            super.onBackPressed()
+        }
         else{
             super.onBackPressed()
         }
 
     }
-
-
-
-
 }

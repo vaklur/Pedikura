@@ -95,9 +95,6 @@ class AddCustomerFunctions {
         if(problemsList.contains(resources.getString(R.string.problems_zn))){
             view.findViewById<CheckBox>(R.id.problems_zn_CHB).isChecked = true
         }
-        if(problemsList.contains(resources.getString(R.string.problems_k))){
-            view.findViewById<CheckBox>(R.id.problems_k_CHB).isChecked = true
-        }
         if(problemsList.contains(resources.getString(R.string.problems_h))){
             view.findViewById<CheckBox>(R.id.problems_h_CHB).isChecked = true
         }

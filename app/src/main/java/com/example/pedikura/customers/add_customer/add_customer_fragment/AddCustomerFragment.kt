@@ -11,18 +11,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pedikura.*
+import com.example.pedikura.DataBaseHandler
+import com.example.pedikura.R
 import com.example.pedikura.customers.Customer
-import com.example.pedikura.functions.PhotoFilesFunctions
+import com.example.pedikura.customers.CustomerViewModel
 import com.example.pedikura.customers.add_customer.photos.OnPhotosClickListener
 import com.example.pedikura.customers.add_customer.photos.Photo
 import com.example.pedikura.customers.add_customer.photos.PhotosAdapter
 import com.example.pedikura.databinding.FragmentAddCustomerBinding
+import com.example.pedikura.functions.PhotoFilesFunctions
 import com.example.pedikura.functions.SharedPreferenceFunctions
 import com.example.pedikura.functions.Splitters
 import com.example.pedikura.volley_communication.CommunicationFunction
@@ -33,13 +36,18 @@ class AddCustomerFragment : Fragment() {
     private var _binding:FragmentAddCustomerBinding? = null
     private val binding get() = _binding!!
 
-    private var customerId:Int = 0
     private var existingCustomer:Boolean = false
+    private var customerID:Int = 0
     private lateinit var photoList: RecyclerView
     private lateinit var mProductListAdapter: PhotosAdapter
 
     private val addCustomerFunc:AddCustomerFunctions = AddCustomerFunctions()
     private val photoFilesFunc: PhotoFilesFunctions = PhotoFilesFunctions()
+
+    private lateinit var customerVM:CustomerViewModel
+
+    private lateinit var db:DataBaseHandler
+    private lateinit var username:String
 
 
 
@@ -67,6 +75,15 @@ class AddCustomerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddCustomerBinding.inflate(inflater,container,false)
+
+        // Init view model
+        customerVM = ViewModelProvider(requireActivity()).get(CustomerViewModel::class.java)
+
+        // init database
+        db = DataBaseHandler(requireContext(), SharedPreferenceFunctions().getUsername(requireContext()).toString())
+        // get user name from share pref
+        username = SharedPreferenceFunctions().getUsername(requireContext()).toString()
+
         return binding.root
     }
 
@@ -75,71 +92,47 @@ class AddCustomerFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val db = DataBaseHandler(requireContext(), SharedPreferenceFunctions().getUsername(requireContext()).toString())
-
-        val username = SharedPreferenceFunctions().getUsername(requireContext()).toString()
 
         photoList = binding.photoRV
         mProductListAdapter = PhotosAdapter(mOnPhotosClickListener = mOnProductClickListener)
         photoList.adapter = mProductListAdapter
 
-        customerId = requireArguments().getInt("id")
-        val customerList = db.readData()
+
+
+
+        val customer = customerVM.getCustomer()
+
+        binding.customerVM = customerVM
 
         /* set imageId ->
         1                                               when no customers in the database
-        customerId                                             when we want update saved customer
+        customerVM.getCustomer().id                                             when we want update saved customer
         customerList[customerList.lastIndex].id+1       when we want to add image and some customers are in database*/
-        when {
-            customerId != -1 -> {
-                existingCustomer = true
-                val customer = db.searchCustomer(customerId)
-                binding.lastNameEV.setText(customer.lname)
-                binding.firstNameEV.setText(customer.fname)
-                binding.ageEV.setText(customer.age)
-                binding.professionEV.setText(customer.profession)
-                binding.contactEV.setText(customer.contact)
-                binding.addressEV.setText(customer.address)
-                binding.lastVisitEV.setText(customer.last_visit)
 
-                binding.problemsOtherET.setText(customer.problems_other)
-                binding.treatmentOthersET.setText(customer.treatment_other)
-                binding.notesET.setText(customer.notes)
-                binding.recommendationET.setText(customer.recommendation)
-                val splitters = Splitters()
-                val photosList = splitters.splitStringComma(customer.photos)
-                for (item in photosList){
-                    val id = mProductListAdapter.getNextItemId()
-                    val photo = Photo(id, photoFilesFunc.loadUriImageFromInternalStorage(requireContext(), item))
-                    mProductListAdapter.addPhoto(photo)
-                }
+        if (customerVM.getCustomer().id!=0){
+            existingCustomer = true
+            customerID = customerVM.getCustomer().id
 
-                addCustomerFunc.setCheckedProblems(view, customer.problems, resources)
-                addCustomerFunc.setCheckedTreatment(view, customer.treatment, resources)
-            }
-            customerList.isEmpty() -> {
-                customerId = if (db.getSequenceOfCustomers()==""){
-                    1
-                } else {
-                    db.getSequenceOfCustomers().toInt() + 1
-                }
-
-            }
-            else -> {
-                customerId = if (db.getSequenceOfCustomers().toInt()>customerList[customerList.lastIndex].id+1){
-                    db.getSequenceOfCustomers().toInt()+1
-                } else{
-                    customerList[customerList.lastIndex].id+1
-                }
+            val splitters = Splitters()
+            val photosList = splitters.splitStringComma(customer.photos)
+            Log.d("test","x"+ customer.photos)
+            for (item in photosList){
+                val id = mProductListAdapter.getNextItemId()
+                val photo = Photo(id, photoFilesFunc.loadUriImageFromInternalStorage(requireContext(), item))
+                mProductListAdapter.addPhoto(photo)
             }
         }
+        else {
+            customerID = getIdForNewCustomer()
+        }
 
-        binding.clientCardTV.text = resources.getString(R.string.client_card)+"s ID: "+customerId.toString()
+
+
 
         // Set foot image
         val myImage = binding.footIV
-        if (photoFilesFunc.existImageInInternalStorage(requireContext(), "$username$customerId.jpg")) {
-            val footBmp = photoFilesFunc.loadImageFromInternalStorage(requireContext(), "$username$customerId.jpg")
+        if (photoFilesFunc.existImageInInternalStorage(requireContext(), "$username$customerID.jpg")) {
+            val footBmp = photoFilesFunc.loadImageFromInternalStorage(requireContext(), "$username$customerID.jpg")
             myImage.setImageBitmap(footBmp)
         }
         else{
@@ -147,6 +140,10 @@ class AddCustomerFragment : Fragment() {
         }
 
         addCustomerFunc.otherCheckBoxListeners(view)
+
+
+
+
 
         // Open foot drawing fragment
         binding.footIV.setOnClickListener{
@@ -162,21 +159,6 @@ class AddCustomerFragment : Fragment() {
         binding.addCustomerBTN.setOnClickListener {
             val lastName = binding.lastNameEV.text.toString()
             val firstName = binding.firstNameEV.text.toString()
-            val age = binding.ageEV.text.toString()
-            val profession = binding.professionEV.text.toString()
-            val contact = binding.contactEV.text.toString()
-            val address = binding.addressEV.text.toString()
-            val lastVisit = binding.lastVisitEV.text.toString()
-
-            val problems = addCustomerFunc.getCheckedProblems(view, resources)
-            val problemsOther = binding.problemsOtherET.text.toString()
-            val treatment = addCustomerFunc.getCheckedTreatment(view, resources)
-            val treatmentOther = binding.treatmentOthersET.text.toString()
-            val notes = binding.notesET.text.toString()
-            val recommendation = binding.recommendationET.text.toString()
-
-            val footImage = "$username$customerId.jpg"
-            var photosString =""
 
             if (lastName=="" || firstName==""){
                 Toast.makeText(
@@ -186,74 +168,99 @@ class AddCustomerFragment : Fragment() {
                 ).show()
             }
             else {
-                for (i in mProductListAdapter.getPhotos().indices) {
-
-                    @Suppress("DEPRECATION") val bmp = MediaStore.Images.Media.getBitmap(
-                        activity?.contentResolver,
-                        mProductListAdapter.getPhotos()[i].imageUri
-                    )
-                    photosString = photosString +photoFilesFunc.saveImageToInternalStorage(
-                        bmp,
-                        requireContext(),
-                        customerId * 1000 + mProductListAdapter.getPhotos()[i].idPhoto
-                    )+","
-                    Log.i("test", mProductListAdapter.getPhotos()[i].imageUri.toString())
-                }
-
-                if (!photoFilesFunc.existImageInInternalStorage(requireContext(), "$username$customerId.jpg")) {
-                    val opt = BitmapFactory.Options()
-                    opt.inScaled = true
-                    opt.inMutable = true
-                    val bitmap = BitmapFactory.decodeResource(resources, R.drawable.foot, opt)
-                    photoFilesFunc.saveImageToInternalStorage(bitmap,requireContext(),customerId)
-                }
-
-                val customer = Customer(
-                    customerId,
-                    lastName,
-                    firstName,
-                    age,
-                    profession,
-                    contact,
-                    address,
-                        lastVisit,
-                    problems,
-                    problemsOther,
-                    treatment,
-                    treatmentOther,
-                    notes,
-                    footImage,
-                    recommendation,
-                    photosString
-                )
-
-
+                val customerX = getCustomerDataFromView(view)
                 val comFunc = CommunicationFunction(requireContext())
+                // if we want update saved customer
                 if (existingCustomer){
-                    db.updateCustomer(customer)
-                    comFunc.updateCustomerInServer(customer,requireContext())
+                    db.updateCustomer(customerX)
+                    comFunc.updateCustomerInServer(customerX,requireContext())
                 }
+                // if we want a save new customer
                 else {
-                    db.insertData(customer)
-                    comFunc.addCustomerToServer(customer,requireContext())
+                    db.insertData(customerX)
+                    comFunc.addCustomerToServer(customerX,requireContext())
                 }
-                val footBmp = photoFilesFunc.loadImageFromInternalStorage(requireContext(), "$username$customerId.jpg")
-                comFunc.uploadImage(footBmp,"$username$customerId",requireContext())
+                // save foot image to storage
+                val footBmp = photoFilesFunc.loadImageFromInternalStorage(requireContext(), "$username$customerID.jpg")
+                comFunc.uploadImage(footBmp,"$username$customerID",requireContext())
 
+                customerVM.clearActualCustomer()
                 findNavController().navigate(R.id.action_addCustomerFragment_to_customersFragment)
             }
 
         }
     }
 
+    private fun getIdForNewCustomer ():Int{
+        val customerList = db.readData()
+        return if (customerList.isEmpty()){
+            if (db.getSequenceOfCustomers()==""){
+                1
+            } else {
+                db.getSequenceOfCustomers().toInt() + 1
+            }
+
+        } else {
+            if (db.getSequenceOfCustomers().toInt()>customerList[customerList.lastIndex].id+1){
+                db.getSequenceOfCustomers().toInt()+1
+            } else{
+                customerList[customerList.lastIndex].id+1
+            }
+        }
+    }
+
+    private fun getCustomerDataFromView(view:View): Customer {
+        var photosString =""
+        for (i in mProductListAdapter.getPhotos().indices) {
+
+            @Suppress("DEPRECATION")
+            val bmp = MediaStore.Images.Media.getBitmap(
+                activity?.contentResolver,
+                mProductListAdapter.getPhotos()[i].imageUri
+            )
+            photosString = photosString +photoFilesFunc.saveImageToInternalStorage(
+                bmp,
+                requireContext(),
+                customerVM.getCustomer().id * 1000 + mProductListAdapter.getPhotos()[i].idPhoto
+            )+","
+            Log.i("test", mProductListAdapter.getPhotos()[i].imageUri.toString())
+        }
+
+        if (!photoFilesFunc.existImageInInternalStorage(requireContext(), "$username$customerID.jpg")) {
+            val opt = BitmapFactory.Options()
+            opt.inScaled = true
+            opt.inMutable = true
+            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.foot, opt)
+            photoFilesFunc.saveImageToInternalStorage(bitmap,requireContext(),customerVM.getCustomer().id)
+        }
+
+        return Customer(
+            customerVM.getCustomer().id,
+            binding.lastNameEV.text.toString(),
+            binding.firstNameEV.text.toString(),
+            binding.ageEV.text.toString(),
+            binding.professionEV.text.toString(),
+            binding.contactEV.text.toString(),
+            binding.addressEV.text.toString(),
+            binding.lastVisitEV.text.toString(),
+            addCustomerFunc.getCheckedProblems(view, resources),
+            binding.problemsOtherET.text.toString(),
+            addCustomerFunc.getCheckedTreatment(view, resources),
+            binding.treatmentOthersET.text.toString(),
+            binding.notesET.text.toString(),
+            "$username$customerID.jpg",
+            binding.recommendationET.text.toString(),
+            photosString
+        )
+    }
+
     override fun onResume() {
         super.onResume()
-        val username = SharedPreferenceFunctions().getUsername(requireContext()).toString()
 
         val myImage = binding.footIV
 
-        if (photoFilesFunc.existImageInInternalStorage(requireContext(), "$username$customerId.jpg")) {
-            val footBmp = photoFilesFunc.loadImageFromInternalStorage(requireContext(), "$username$customerId.jpg")
+        if (photoFilesFunc.existImageInInternalStorage(requireContext(), "$username$customerID.jpg")) {
+            val footBmp = photoFilesFunc.loadImageFromInternalStorage(requireContext(), "$username$customerID.jpg")
             myImage.setImageBitmap(footBmp)
         }
         else{
@@ -276,7 +283,7 @@ class AddCustomerFragment : Fragment() {
             setMessage("Opravdu chcete změnit poznámky nakreslené na obrázku nohou?")
             setPositiveButton("Ano"){ _, _->
                 val bundle = Bundle()
-                bundle.putInt("imageId", customerId)
+                bundle.putInt("imageId", customerVM.getCustomer().id)
                 findNavController().navigate(
                     R.id.action_addCustomerFragment_to_footDrawFragment,
                     bundle
