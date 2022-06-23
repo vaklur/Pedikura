@@ -31,8 +31,6 @@ class MainActivity : AppCompatActivity() {
                 Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.customersFragment)
             }
         }
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -80,9 +78,6 @@ class MainActivity : AppCompatActivity() {
             customerVM.clearActualCustomer()
             super.onBackPressed()
         }
-        else{
-            super.onBackPressed()
-        }
-
+        super.onBackPressed()
     }
 }

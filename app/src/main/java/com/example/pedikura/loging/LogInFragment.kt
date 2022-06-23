@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.room.util.StringUtil
 import com.example.pedikura.R
 import com.example.pedikura.databinding.FragmentLogInBinding
 import com.example.pedikura.volley_communication.CommunicationFunction
@@ -35,9 +37,10 @@ class LogInFragment : Fragment() {
         binding.buttonLogin.setOnClickListener {
             val username = binding.username.text.toString()
             val password = binding.password.text.toString()
+            // Use trim()
             if (username!=""&& password!=""){
-            val comFunc = CommunicationFunction(requireContext())
-            comFunc.logInToServer(username,password,view,requireContext())
+                val comFunc = CommunicationFunction(requireContext())
+                comFunc.logInToServer(username,password,view,requireContext())
             }
             else {
                 Toast.makeText(requireContext(),"Údaje musí být vyplněné!",Toast.LENGTH_LONG).show()
