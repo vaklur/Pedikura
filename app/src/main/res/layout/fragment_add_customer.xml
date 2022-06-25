@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textCapSentences"
-                android:text="@{customerVM.customer.lname}"
+                android:text="@{customerVM.customer.last_name}"
                 android:hint="@string/last_name"/>
             <TextView
                 android:id="@+id/first_name_TV"
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textCapSentences"
-                android:text="@{customerVM.customer.fname}"
+                android:text="@{customerVM.customer.first_name}"
                 android:hint="@string/first_name"/>
             <TextView
                 android:id="@+id/age_TV"
@@ -317,12 +317,14 @@
                 android:id="@+id/treatment_a_CHB"
                 android:layout_width="208dp"
                 android:layout_height="match_parent"
+                android:checked="@{customerVM.treatments.treatmentA}"
                 android:text="@string/treatment_a" />
 
             <CheckBox
                 android:id="@+id/treatment_co_CHB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:checked="@{customerVM.treatments.treatmentCO}"
                 android:text="@string/treatment_co" />
         </LinearLayout>
         <LinearLayout
@@ -333,12 +335,14 @@
                 android:id="@+id/treatment_d_CHB"
                 android:layout_width="208dp"
                 android:layout_height="match_parent"
+                android:checked="@{customerVM.treatments.treatmentD}"
                 android:text="@string/treatment_d" />
 
             <CheckBox
                 android:id="@+id/treatment_kz_CHB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:checked="@{customerVM.treatments.treatmentKZ}"
                 android:text="@string/treatment_kz" />
         </LinearLayout>
         <LinearLayout
@@ -349,12 +353,14 @@
                 android:id="@+id/treatment_l_CHB"
                 android:layout_width="208dp"
                 android:layout_height="match_parent"
+                android:checked="@{customerVM.treatments.treatmentL}"
                 android:text="@string/treatment_l" />
 
             <CheckBox
                 android:id="@+id/treatment_h_CHB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:checked="@{customerVM.treatments.treatmentH}"
                 android:text="@string/treatment_h" />
         </LinearLayout>
         <LinearLayout
@@ -364,12 +370,14 @@
                 android:id="@+id/treatment_n_CHB"
                 android:layout_width="208dp"
                 android:layout_height="match_parent"
+                android:checked="@{customerVM.treatments.treatmentN}"
                 android:text="@string/problems_n" />
 
             <CheckBox
                 android:id="@+id/treatment_others_CHB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:checked="@{customerVM.treatments.treatmentO}"
                 android:text="@string/treatment_others" />
 
         </LinearLayout>
@@ -407,6 +415,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 android:src="@drawable/foot"
+                android:contentDescription="@string/footImageDescription"
                 android:clickable="true"
                 android:focusable="true" />
 

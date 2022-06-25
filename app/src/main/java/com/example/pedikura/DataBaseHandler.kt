@@ -6,13 +6,13 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.pedikura.backup.Operation
-import com.example.pedikura.customers.Customer
+import com.example.pedikura.data.Customer
 import com.example.pedikura.logs.Logs
 
 const val TABLENAME = "Customers"
 const val COL_ID = "id"
-const val COL_LNAME = "lname"
-const val COL_FNAME = "fname"
+const val COL_LNAME = "last_name"
+const val COL_FNAME = "first_name"
 const val COL_AGE = "age"
 const val COL_PROFESSION = "profession"
 const val COL_CONTACT = "contact"
@@ -85,8 +85,8 @@ class DataBaseHandler(val context: Context, private val dbName:String) : SQLiteO
         val database = this.writableDatabase
         val contentValues = ContentValues()
         if (customer.id>0) contentValues.put(COL_ID,customer.id)
-        contentValues.put(COL_LNAME, customer.lname)
-        contentValues.put(COL_FNAME, customer.fname)
+        contentValues.put(COL_LNAME, customer.last_name)
+        contentValues.put(COL_FNAME, customer.first_name)
         contentValues.put(COL_AGE, customer.age)
         contentValues.put(COL_PROFESSION, customer.profession)
         contentValues.put(COL_CONTACT, customer.contact)
@@ -206,8 +206,8 @@ class DataBaseHandler(val context: Context, private val dbName:String) : SQLiteO
         if (result.moveToFirst()) {
             do {
                 customer.id = result.getInt(result.getColumnIndex(COL_ID))
-                customer.lname = result.getString(result.getColumnIndex(COL_LNAME))
-                customer.fname = result.getString(result.getColumnIndex(COL_FNAME))
+                customer.last_name = result.getString(result.getColumnIndex(COL_LNAME))
+                customer.first_name = result.getString(result.getColumnIndex(COL_FNAME))
                 customer.age = result.getString(result.getColumnIndex(COL_AGE))
                 customer.profession = result.getString(result.getColumnIndex(COL_PROFESSION))
                 customer.contact = result.getString(result.getColumnIndex(COL_CONTACT))
@@ -267,8 +267,8 @@ class DataBaseHandler(val context: Context, private val dbName:String) : SQLiteO
     fun updateCustomer (customer: Customer){
         val database = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(COL_LNAME, customer.lname)
-        contentValues.put(COL_FNAME, customer.fname)
+        contentValues.put(COL_LNAME, customer.last_name)
+        contentValues.put(COL_FNAME, customer.first_name)
         contentValues.put(COL_AGE, customer.age)
         contentValues.put(COL_PROFESSION, customer.profession)
         contentValues.put(COL_CONTACT, customer.contact)
@@ -293,7 +293,7 @@ class DataBaseHandler(val context: Context, private val dbName:String) : SQLiteO
         val data = db.readData()
         val customersList = ArrayList<Customer>()
          for (i in 0 until data.size) {
-            customersList.add(Customer(data[i].id,data[i].lname,data[i].fname,data[i].age,data[i].profession,data[i].contact,data[i].address,data[i].last_visit,data[i].problems,data[i].problems_other,data[i].treatment,data[i].treatment_other,data[i].notes,data[i].foot_image,data[i].recommendation,data[i].photos))
+            customersList.add(Customer(data[i].id,data[i].last_name,data[i].first_name,data[i].age,data[i].profession,data[i].contact,data[i].address,data[i].last_visit,data[i].problems,data[i].problems_other,data[i].treatment,data[i].treatment_other,data[i].notes,data[i].foot_image,data[i].recommendation,data[i].photos))
         }
         return customersList
     }

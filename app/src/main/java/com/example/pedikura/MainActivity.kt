@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         }
         if (navigationController.currentDestination?.id == R.id.customerDetailFragment){
             customerVM.clearActualCustomer()
-            super.onBackPressed()
+            //super.onBackPressed()
         }
         super.onBackPressed()
     }

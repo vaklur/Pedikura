@@ -25,7 +25,7 @@
             android:id="@+id/client_card_TV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{@string/client_card_with_ID(String.valueOf(customerVM.displayableCustomer.component1()))}"
+            android:text="@{@string/client_card_with_ID(String.valueOf(customerVM.displayableCustomer.id))}"
             android:textAlignment="center"
             android:textStyle="bold"
             android:textSize="50sp" />
@@ -49,7 +49,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{customerVM.displayableCustomer.component2()}"
+                android:text="@{customerVM.displayableCustomer.last_name}"
                 android:textSize="30sp" />
         </LinearLayout>
 
@@ -73,7 +73,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{customerVM.displayableCustomer.component3()}"
+                android:text="@{customerVM.displayableCustomer.first_name}"
                 android:textSize="30sp" />
         </LinearLayout>
 
@@ -96,7 +96,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{customerVM.displayableCustomer.component4()}"
+                android:text="@{customerVM.displayableCustomer.age}"
                 android:textSize="30sp" />
         </LinearLayout>
 
@@ -118,7 +118,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{customerVM.displayableCustomer.component5()}"
+            android:text="@{customerVM.displayableCustomer.profession}"
             android:textSize="30sp" />
     </LinearLayout>
 
@@ -139,7 +139,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{customerVM.displayableCustomer.component6()}"
+            android:text="@{customerVM.displayableCustomer.contact}"
             android:textSize="30sp" />
     </LinearLayout>
 
@@ -160,7 +160,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{customerVM.displayableCustomer.component7()}"
+            android:text="@{customerVM.displayableCustomer.address}"
             android:textSize="30sp" />
     </LinearLayout>
 
@@ -175,7 +175,7 @@
                 android:id="@+id/last_visit1_TV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{customerVM.displayableCustomer.component8()}"
+                android:text="@{customerVM.displayableCustomer.last_visit}"
                 android:textSize="30sp" />
 
         <TextView
@@ -189,7 +189,7 @@
             android:id="@+id/problems1_TV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{customerVM.displayableCustomer.component9()}"
+            android:text="@{customerVM.displayableCustomer.problems}"
             android:textSize="30sp"/>
 
         <TextView
@@ -204,7 +204,7 @@
             android:id="@+id/treatment1_TV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{customerVM.displayableCustomer.component11()}"
+            android:text="@{customerVM.displayableCustomer.treatment}"
             android:textSize="30sp"/>
         <TextView
             android:id="@+id/notes_TV"
@@ -218,7 +218,7 @@
             android:id="@+id/notes1_TV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{customerVM.displayableCustomer.component13()}"
+            android:text="@{customerVM.displayableCustomer.notes}"
             android:textSize="30sp"/>
 
         <ImageView
@@ -226,6 +226,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
+            android:contentDescription="@string/footImageDescription"
             android:src="@drawable/foot"
             android:background="@drawable/image_border"/>
 
@@ -241,7 +242,7 @@
             android:id="@+id/recommendation_TV1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{customerVM.displayableCustomer.component15()}"
+            android:text="@{customerVM.displayableCustomer.recommendation}"
             android:textSize="30sp"/>
 
         <TextView

@@ -19,7 +19,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pedikura.DataBaseHandler
 import com.example.pedikura.R
-import com.example.pedikura.customers.Customer
+import com.example.pedikura.data.Customer
 import com.example.pedikura.customers.CustomerViewModel
 import com.example.pedikura.customers.add_customer.photos.OnPhotosClickListener
 import com.example.pedikura.customers.add_customer.photos.Photo
@@ -46,7 +46,6 @@ class AddCustomerFragment : Fragment() {
 
     private lateinit var customerVM:CustomerViewModel
 
-    private lateinit var db:DataBaseHandler
     private lateinit var username:String
 
 
@@ -79,8 +78,6 @@ class AddCustomerFragment : Fragment() {
         // Init view model
         customerVM = ViewModelProvider(requireActivity()).get(CustomerViewModel::class.java)
 
-        // init database
-        db = DataBaseHandler(requireContext(), SharedPreferenceFunctions().getUsername(requireContext()).toString())
         // get user name from share pref
         username = SharedPreferenceFunctions().getUsername(requireContext()).toString()
 
@@ -123,7 +120,9 @@ class AddCustomerFragment : Fragment() {
             }
         }
         else {
-            customerID = getIdForNewCustomer()
+            customerID = customerVM.getLastCustomerID()+1
+            customerVM.setActualCustomerID(customerID)
+            Log.d("test","Customer ID for new customer is: "+customerID.toString())
         }
 
 
@@ -172,17 +171,19 @@ class AddCustomerFragment : Fragment() {
                 val comFunc = CommunicationFunction(requireContext())
                 // if we want update saved customer
                 if (existingCustomer){
-                    db.updateCustomer(customerX)
-                    comFunc.updateCustomerInServer(customerX,requireContext())
+                    //db.updateCustomer(customerX)
+                    customerVM.updateCustomer(customerX)
+                    //comFunc.updateCustomerInServer(customerX,requireContext())
                 }
                 // if we want a save new customer
                 else {
-                    db.insertData(customerX)
-                    comFunc.addCustomerToServer(customerX,requireContext())
+                    //db.insertData(customerX)
+                    customerVM.addCustomer(customerX)
+                    //comFunc.addCustomerToServer(customerX,requireContext())
                 }
                 // save foot image to storage
                 val footBmp = photoFilesFunc.loadImageFromInternalStorage(requireContext(), "$username$customerID.jpg")
-                comFunc.uploadImage(footBmp,"$username$customerID",requireContext())
+                //comFunc.uploadImage(footBmp,"$username$customerID",requireContext())
 
                 customerVM.clearActualCustomer()
                 findNavController().navigate(R.id.action_addCustomerFragment_to_customersFragment)
@@ -191,23 +192,6 @@ class AddCustomerFragment : Fragment() {
         }
     }
 
-    private fun getIdForNewCustomer ():Int{
-        val customerList = db.readData()
-        return if (customerList.isEmpty()){
-            if (db.getSequenceOfCustomers()==""){
-                1
-            } else {
-                db.getSequenceOfCustomers().toInt() + 1
-            }
-
-        } else {
-            if (db.getSequenceOfCustomers().toInt()>customerList[customerList.lastIndex].id+1){
-                db.getSequenceOfCustomers().toInt()+1
-            } else{
-                customerList[customerList.lastIndex].id+1
-            }
-        }
-    }
 
     private fun getCustomerDataFromView(view:View): Customer {
         var photosString =""

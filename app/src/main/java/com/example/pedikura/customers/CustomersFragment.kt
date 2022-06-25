@@ -13,41 +13,39 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pedikura.DataBaseHandler
 import com.example.pedikura.R
+import com.example.pedikura.data.Customer
 import com.example.pedikura.databinding.FragmentCustomersBinding
 import com.example.pedikura.functions.SharedPreferenceFunctions
 import com.example.pedikura.volley_communication.CommunicationFunction
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.math.ceil
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class CustomersFragment : Fragment() {
-    private var _binding: FragmentCustomersBinding?=null
+    private var _binding: FragmentCustomersBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var customerVM:CustomerViewModel
+    private lateinit var customerVM: CustomerViewModel
 
     private lateinit var recyclerView: RecyclerView
-    private var customers = ArrayList<Customer>()
+    private var customers: List<Customer> = listOf()
 
-    private val firstCallTime = ceil(System.currentTimeMillis()/60_000.0).toLong()*60
+    private val firstCallTime = ceil(System.currentTimeMillis() / 60_000.0).toLong() * 60
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        lifecycleScope.launch { delay(firstCallTime - System.currentTimeMillis())
-            while (true){
+        lifecycleScope.launch {
+            delay(firstCallTime - System.currentTimeMillis())
+            while (true) {
                 launch {
-                    Log.d("test","minute")
-                    val comFunc = CommunicationFunction(requireContext())
-                    comFunc.connectionToServer(requireContext())
+                    Log.d("test", "minute")
+                    CommunicationFunction(requireContext()).connectionToServer(requireContext())
                 }
                 delay(60_000)
             }
@@ -55,10 +53,11 @@ class CustomersFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCustomersBinding.inflate(inflater,container,false)
+        customerVM = ViewModelProvider(requireActivity()).get(CustomerViewModel::class.java)
+        _binding = FragmentCustomersBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -66,17 +65,19 @@ class CustomersFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val db = DataBaseHandler(requireContext(),SharedPreferenceFunctions().getUsername(requireContext()).toString())
-        customers = db.loadCustomers()
 
         val username = SharedPreferenceFunctions().getUsername(requireContext())
         binding.usernameTV.text = "Přihlášen jako $username"
 
-        customerVM = ViewModelProvider(requireActivity()).get(CustomerViewModel::class.java)
-
         recyclerView = binding.recyclerView
-        attachAdapter(customers)
-        toggleRecyclerView(customers)
+        customerVM.readAllCustomer.observe(
+            viewLifecycleOwner
+        ) { customerList ->
+            customers = customerList
+            attachAdapter(customerList)
+            toggleRecyclerView(customerList)
+            customerVM.setLastCustomerID(customerList.last().id)
+        }
 
 
         binding.searchCustomerET.addTextChangedListener(object : TextWatcher {
@@ -93,19 +94,16 @@ class CustomersFragment : Fragment() {
             }
         })
 
-
+        // Add customer button
         binding.addBTN.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putInt("id", -1)
-            findNavController().navigate(R.id.action_customersFragment_to_addCustomerFragment, bundle)
+            findNavController().navigate(R.id.action_customersFragment_to_addCustomerFragment)
         }
-
 
 
     }
 
     private fun attachAdapter(list: List<Customer>) {
-        val searchAdapter = CustomersAdapter(list)
+        val searchAdapter = CustomersAdapter(list, customerVM)
         recyclerView.adapter = searchAdapter
     }
 
@@ -124,7 +122,7 @@ class CustomersFragment : Fragment() {
         // Loop through each item in list
         for (currentCustomer in customers) {
             // Before checking string matching convert string to lower case.
-            if (currentCustomer.lname.lowercase(Locale.getDefault()).contains(filterQuery)) {
+            if (currentCustomer.last_name.lowercase(Locale.getDefault()).contains(filterQuery)) {
                 // If the match is success, add item to list.
                 filteredList.add(currentCustomer)
             }
@@ -149,3 +147,6 @@ class CustomersFragment : Fragment() {
 
 
 }
+
+
+

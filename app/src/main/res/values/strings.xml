@@ -85,5 +85,12 @@
     <string name="password">Heslo</string>
     <string name="username">Přezdívka</string>
 
+    //Settings
+    <string name="setting_dialog_title">Nahrání dat ze zálohy na serveru</string>
+    <string name="setting_dialog_message">Opravdu chcete nahrát data ze zálohy na serveru?\nPřijdete tak o všechny zákazníky uložené v aplikaci.</string>
+    <string name="setting_dialog_positive">Ano</string>
+    <string name="setting_dialog_negative">Ne</string>
+    <string name="footImageDescription">foot</string>
+
 
 </resources>

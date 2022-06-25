@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory
 import android.util.Base64
 import android.util.Log
 import android.view.View
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.navigation.findNavController
 import com.android.volley.AuthFailureError
@@ -18,7 +17,7 @@ import com.example.pedikura.DataBaseHandler
 import com.example.pedikura.backup.Operation
 import com.example.pedikura.R
 import com.example.pedikura.backup.BackupDialog
-import com.example.pedikura.customers.Customer
+import com.example.pedikura.data.Customer
 import com.example.pedikura.functions.PhotoFilesFunctions
 import com.example.pedikura.functions.SharedPreferenceFunctions
 import com.example.pedikura.logs.Logs
@@ -162,8 +161,8 @@ class CommunicationFunction(context: Context) {
                     val params = HashMap<String, String>()
                     params["customer"] = crypto.encryptData(actualUsername.toString(),context)
                     params["id"] = crypto.encryptData(customer.id.toString(),context)
-                    params["lname"] = crypto.encryptData(customer.lname,context)
-                    params["fname"] = crypto.encryptData(customer.fname,context)
+                    params["lname"] = crypto.encryptData(customer.last_name,context)
+                    params["fname"] = crypto.encryptData(customer.first_name,context)
                     params["age"] = crypto.encryptData(customer.age,context)
                     params["profession"] = crypto.encryptData(customer.profession,context)
                     params["contact"] = crypto.encryptData(customer.contact,context)
@@ -208,8 +207,8 @@ class CommunicationFunction(context: Context) {
                 val params = HashMap<String, String>()
                 params["customer"] = crypto.encryptData(actualUsername.toString(),context)
                 params["id"] = crypto.encryptData(customer.id.toString(),context)
-                params["lname"] = crypto.encryptData(customer.lname,context)
-                params["fname"] = crypto.encryptData(customer.fname,context)
+                params["lname"] = crypto.encryptData(customer.last_name,context)
+                params["fname"] = crypto.encryptData(customer.first_name,context)
                 params["age"] = crypto.encryptData(customer.age,context)
                 params["profession"] = crypto.encryptData(customer.profession,context)
                 params["contact"] = crypto.encryptData(customer.contact,context)

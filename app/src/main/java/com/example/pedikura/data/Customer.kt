@@ -1,9 +1,14 @@
-package com.example.pedikura.customers
+package com.example.pedikura.data
 
-data class Customer(
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "customer_table")
+data class Customer (
+    @PrimaryKey(autoGenerate = true)
     var id:Int,
-    var lname:String,
-    var fname:String,
+    var last_name:String,
+    var first_name:String,
     var age:String,
     var profession:String,
     var contact:String,

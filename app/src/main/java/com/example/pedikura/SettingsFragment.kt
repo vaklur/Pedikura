@@ -2,17 +2,12 @@ package com.example.pedikura
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.navigation.fragment.findNavController
 import com.example.pedikura.backup.BackupDialog
-import com.example.pedikura.functions.SharedPreferenceFunctions
-import com.example.pedikura.volley_communication.CommunicationFunction
 
 
 class SettingsFragment : Fragment() {
@@ -39,13 +34,12 @@ class SettingsFragment : Fragment() {
     private fun showWarningDialog(){
         val alertDialog = AlertDialog.Builder(requireContext())
         alertDialog.apply {
-            setTitle("Nahrání dat ze zálohy na serveru")
-            setMessage("Opravdu chcete nahrát data ze zálohy na serveru?\n" +
-                    "Přijdete tak o všechny zákazníky uložené v aplikaci.")
-            setPositiveButton("Ano"){_,_->
+            setTitle(getString(R.string.setting_dialog_title))
+            setMessage(getString(R.string.setting_dialog_message))
+            setPositiveButton(getString(R.string.setting_dialog_positive)){_,_->
                 BackupDialog().show(parentFragmentManager,"Backup Dialog")
             }
-            setNegativeButton("Ne"){_,_->
+            setNegativeButton(getString(R.string.setting_dialog_negative)){_,_->
 
             }.create().show()
         }
